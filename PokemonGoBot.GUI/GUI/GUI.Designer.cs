@@ -56,18 +56,6 @@ namespace PokemonGoBot.GUI.GUI
             this.TextBox_ProxyUsername = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
             this.TextBox_ProxyHost = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
             this.OnOff_UseProxy = new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox();
-            this.GroupBox_GPXPathing = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
-            this.OnOff_GPXIgnorePokestops = new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox();
-            this.TextBot_GPXFile = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
-            this.Button_SelectGPXFile = new PokemonGoBot.GUI.GUI.Theme.NSButton();
-            this.nsLabel3 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
-            this.nsLabel4 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
-            this.GroupBox_Movement = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
-            this.NumUpDown_WalkingSpeed = new System.Windows.Forms.NumericUpDown();
-            this.NumUpDown_MaxTravelDistance = new System.Windows.Forms.NumericUpDown();
-            this.Label_MaxTravelDistance = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
-            this.Label_WalkingSpeed = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
-            this.ComboBox_MovementType = new PokemonGoBot.GUI.GUI.Theme.NSComboBox();
             this.GroupBox_Coordinates = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
             this.Label_DefaultAltitude = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
             this.Label_DefaultLongitude = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
@@ -79,7 +67,24 @@ namespace PokemonGoBot.GUI.GUI
             this.TextBox_UserPassword = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
             this.TextBox_UserNameOrEmail = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
             this.ComboBox_AuthType = new PokemonGoBot.GUI.GUI.Theme.NSComboBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.Tab_Settings_Page_MovementSettings = new System.Windows.Forms.TabPage();
+            this.GroupBox_GPXPathing = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
+            this.OnOff_GPXIgnorePokestops = new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox();
+            this.TextBot_GPXFile = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
+            this.Button_SelectGPXFile = new PokemonGoBot.GUI.GUI.Theme.NSButton();
+            this.nsLabel3 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel4 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsGroupBox1 = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
+            this.NumUpDown_WalkingSpeed = new System.Windows.Forms.NumericUpDown();
+            this.NumUpDown_MaxTravelDistance = new System.Windows.Forms.NumericUpDown();
+            this.nsLabel2 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel5 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.ComboBox_MovementType = new PokemonGoBot.GUI.GUI.Theme.NSComboBox();
+            this.Tab_Settings_Page_CatchSettings = new System.Windows.Forms.TabPage();
+            this.Tab_Settings_Page_EvolveSettings = new System.Windows.Forms.TabPage();
+            this.Tab_Settings_Page_TransferSettings = new System.Windows.Forms.TabPage();
+            this.Tab_Settings_Page_InventorySettings = new System.Windows.Forms.TabPage();
+            this.Tab_Settings_Page_UseItemsSettings = new System.Windows.Forms.TabPage();
             this.nsTheme1.SuspendLayout();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Settings.SuspendLayout();
@@ -88,12 +93,13 @@ namespace PokemonGoBot.GUI.GUI
             this.GroupBox_Others.SuspendLayout();
             this.GroupBox_Proxy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_ProxyPort)).BeginInit();
-            this.GroupBox_GPXPathing.SuspendLayout();
-            this.GroupBox_Movement.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_WalkingSpeed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_MaxTravelDistance)).BeginInit();
             this.GroupBox_Coordinates.SuspendLayout();
             this.GroupBox_Login.SuspendLayout();
+            this.Tab_Settings_Page_MovementSettings.SuspendLayout();
+            this.GroupBox_GPXPathing.SuspendLayout();
+            this.nsGroupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_WalkingSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_MaxTravelDistance)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -189,7 +195,7 @@ namespace PokemonGoBot.GUI.GUI
             this.TabControl_Main.Controls.Add(this.TabPage_Inventory);
             this.TabControl_Main.Controls.Add(this.TabPage_Settings);
             this.TabControl_Main.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.TabControl_Main.ItemSize = new System.Drawing.Size(28, 115);
+            this.TabControl_Main.ItemSize = new System.Drawing.Size(28, 80);
             this.TabControl_Main.Location = new System.Drawing.Point(12, 63);
             this.TabControl_Main.Multiline = true;
             this.TabControl_Main.Name = "TabControl_Main";
@@ -201,10 +207,10 @@ namespace PokemonGoBot.GUI.GUI
             // TabPage_Main
             // 
             this.TabPage_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.TabPage_Main.Location = new System.Drawing.Point(119, 4);
+            this.TabPage_Main.Location = new System.Drawing.Point(84, 4);
             this.TabPage_Main.Name = "TabPage_Main";
             this.TabPage_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_Main.Size = new System.Drawing.Size(753, 391);
+            this.TabPage_Main.Size = new System.Drawing.Size(788, 391);
             this.TabPage_Main.TabIndex = 0;
             this.TabPage_Main.Text = "Main";
             // 
@@ -212,18 +218,18 @@ namespace PokemonGoBot.GUI.GUI
             // 
             this.TabPage_Pokemon.AllowDrop = true;
             this.TabPage_Pokemon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.TabPage_Pokemon.Location = new System.Drawing.Point(119, 4);
+            this.TabPage_Pokemon.Location = new System.Drawing.Point(84, 4);
             this.TabPage_Pokemon.Name = "TabPage_Pokemon";
-            this.TabPage_Pokemon.Size = new System.Drawing.Size(753, 391);
+            this.TabPage_Pokemon.Size = new System.Drawing.Size(788, 391);
             this.TabPage_Pokemon.TabIndex = 2;
             this.TabPage_Pokemon.Text = "Pokemon";
             // 
             // TabPage_Inventory
             // 
             this.TabPage_Inventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.TabPage_Inventory.Location = new System.Drawing.Point(119, 4);
+            this.TabPage_Inventory.Location = new System.Drawing.Point(84, 4);
             this.TabPage_Inventory.Name = "TabPage_Inventory";
-            this.TabPage_Inventory.Size = new System.Drawing.Size(753, 391);
+            this.TabPage_Inventory.Size = new System.Drawing.Size(788, 391);
             this.TabPage_Inventory.TabIndex = 3;
             this.TabPage_Inventory.Text = "Inventory";
             // 
@@ -231,10 +237,10 @@ namespace PokemonGoBot.GUI.GUI
             // 
             this.TabPage_Settings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.TabPage_Settings.Controls.Add(this.nsTabControl1);
-            this.TabPage_Settings.Location = new System.Drawing.Point(119, 4);
+            this.TabPage_Settings.Location = new System.Drawing.Point(84, 4);
             this.TabPage_Settings.Name = "TabPage_Settings";
             this.TabPage_Settings.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_Settings.Size = new System.Drawing.Size(753, 391);
+            this.TabPage_Settings.Size = new System.Drawing.Size(788, 391);
             this.TabPage_Settings.TabIndex = 1;
             this.TabPage_Settings.Text = "Settings";
             // 
@@ -242,14 +248,19 @@ namespace PokemonGoBot.GUI.GUI
             // 
             this.nsTabControl1.Alignment = System.Windows.Forms.TabAlignment.Left;
             this.nsTabControl1.Controls.Add(this.Tab_Settings_Page_GeneralSettings);
-            this.nsTabControl1.Controls.Add(this.tabPage2);
+            this.nsTabControl1.Controls.Add(this.Tab_Settings_Page_MovementSettings);
+            this.nsTabControl1.Controls.Add(this.Tab_Settings_Page_CatchSettings);
+            this.nsTabControl1.Controls.Add(this.Tab_Settings_Page_EvolveSettings);
+            this.nsTabControl1.Controls.Add(this.Tab_Settings_Page_TransferSettings);
+            this.nsTabControl1.Controls.Add(this.Tab_Settings_Page_InventorySettings);
+            this.nsTabControl1.Controls.Add(this.Tab_Settings_Page_UseItemsSettings);
             this.nsTabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.nsTabControl1.ItemSize = new System.Drawing.Size(28, 115);
+            this.nsTabControl1.ItemSize = new System.Drawing.Size(28, 130);
             this.nsTabControl1.Location = new System.Drawing.Point(6, 6);
             this.nsTabControl1.Multiline = true;
             this.nsTabControl1.Name = "nsTabControl1";
             this.nsTabControl1.SelectedIndex = 0;
-            this.nsTabControl1.Size = new System.Drawing.Size(744, 379);
+            this.nsTabControl1.Size = new System.Drawing.Size(776, 379);
             this.nsTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.nsTabControl1.TabIndex = 0;
             // 
@@ -258,14 +269,12 @@ namespace PokemonGoBot.GUI.GUI
             this.Tab_Settings_Page_GeneralSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.Tab_Settings_Page_GeneralSettings.Controls.Add(this.GroupBox_Others);
             this.Tab_Settings_Page_GeneralSettings.Controls.Add(this.GroupBox_Proxy);
-            this.Tab_Settings_Page_GeneralSettings.Controls.Add(this.GroupBox_GPXPathing);
-            this.Tab_Settings_Page_GeneralSettings.Controls.Add(this.GroupBox_Movement);
             this.Tab_Settings_Page_GeneralSettings.Controls.Add(this.GroupBox_Coordinates);
             this.Tab_Settings_Page_GeneralSettings.Controls.Add(this.GroupBox_Login);
-            this.Tab_Settings_Page_GeneralSettings.Location = new System.Drawing.Point(119, 4);
+            this.Tab_Settings_Page_GeneralSettings.Location = new System.Drawing.Point(134, 4);
             this.Tab_Settings_Page_GeneralSettings.Name = "Tab_Settings_Page_GeneralSettings";
             this.Tab_Settings_Page_GeneralSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Settings_Page_GeneralSettings.Size = new System.Drawing.Size(621, 371);
+            this.Tab_Settings_Page_GeneralSettings.Size = new System.Drawing.Size(638, 371);
             this.Tab_Settings_Page_GeneralSettings.TabIndex = 0;
             this.Tab_Settings_Page_GeneralSettings.Text = "General Settings";
             // 
@@ -273,9 +282,9 @@ namespace PokemonGoBot.GUI.GUI
             // 
             this.GroupBox_Others.Controls.Add(this.nsLabel1);
             this.GroupBox_Others.DrawSeperator = false;
-            this.GroupBox_Others.Location = new System.Drawing.Point(321, 186);
+            this.GroupBox_Others.Location = new System.Drawing.Point(9, 196);
             this.GroupBox_Others.Name = "GroupBox_Others";
-            this.GroupBox_Others.Size = new System.Drawing.Size(274, 175);
+            this.GroupBox_Others.Size = new System.Drawing.Size(299, 108);
             this.GroupBox_Others.SubTitle = "Details";
             this.GroupBox_Others.TabIndex = 6;
             this.GroupBox_Others.Text = "GroupBox_Others";
@@ -304,7 +313,7 @@ namespace PokemonGoBot.GUI.GUI
             this.GroupBox_Proxy.Controls.Add(this.TextBox_ProxyHost);
             this.GroupBox_Proxy.Controls.Add(this.OnOff_UseProxy);
             this.GroupBox_Proxy.DrawSeperator = false;
-            this.GroupBox_Proxy.Location = new System.Drawing.Point(413, 6);
+            this.GroupBox_Proxy.Location = new System.Drawing.Point(427, 6);
             this.GroupBox_Proxy.Name = "GroupBox_Proxy";
             this.GroupBox_Proxy.Size = new System.Drawing.Size(205, 156);
             this.GroupBox_Proxy.SubTitle = "Details";
@@ -431,181 +440,6 @@ namespace PokemonGoBot.GUI.GUI
             this.OnOff_UseProxy.TabIndex = 0;
             this.OnOff_UseProxy.Text = "OnOff_UseProxy";
             // 
-            // GroupBox_GPXPathing
-            // 
-            this.GroupBox_GPXPathing.Controls.Add(this.OnOff_GPXIgnorePokestops);
-            this.GroupBox_GPXPathing.Controls.Add(this.TextBot_GPXFile);
-            this.GroupBox_GPXPathing.Controls.Add(this.Button_SelectGPXFile);
-            this.GroupBox_GPXPathing.Controls.Add(this.nsLabel3);
-            this.GroupBox_GPXPathing.Controls.Add(this.nsLabel4);
-            this.GroupBox_GPXPathing.DrawSeperator = false;
-            this.GroupBox_GPXPathing.Location = new System.Drawing.Point(9, 256);
-            this.GroupBox_GPXPathing.Name = "GroupBox_GPXPathing";
-            this.GroupBox_GPXPathing.Size = new System.Drawing.Size(208, 93);
-            this.GroupBox_GPXPathing.SubTitle = "Details";
-            this.GroupBox_GPXPathing.TabIndex = 4;
-            this.GroupBox_GPXPathing.Text = "GPXPathing";
-            this.GroupBox_GPXPathing.Title = "GPXPathing";
-            // 
-            // OnOff_GPXIgnorePokestops
-            // 
-            this.OnOff_GPXIgnorePokestops.Checked = false;
-            this.OnOff_GPXIgnorePokestops.Location = new System.Drawing.Point(149, 66);
-            this.OnOff_GPXIgnorePokestops.MaximumSize = new System.Drawing.Size(56, 24);
-            this.OnOff_GPXIgnorePokestops.MinimumSize = new System.Drawing.Size(56, 24);
-            this.OnOff_GPXIgnorePokestops.Name = "OnOff_GPXIgnorePokestops";
-            this.OnOff_GPXIgnorePokestops.Size = new System.Drawing.Size(56, 24);
-            this.OnOff_GPXIgnorePokestops.TabIndex = 8;
-            this.OnOff_GPXIgnorePokestops.Text = "OnOff_GPXIgnorePokestops";
-            // 
-            // TextBot_GPXFile
-            // 
-            this.TextBot_GPXFile.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.TextBot_GPXFile.Location = new System.Drawing.Point(56, 40);
-            this.TextBot_GPXFile.MaxLength = 32767;
-            this.TextBot_GPXFile.Multiline = false;
-            this.TextBot_GPXFile.Name = "TextBot_GPXFile";
-            this.TextBot_GPXFile.ReadOnly = false;
-            this.TextBot_GPXFile.Size = new System.Drawing.Size(92, 23);
-            this.TextBot_GPXFile.TabIndex = 7;
-            this.TextBot_GPXFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.TextBot_GPXFile.UseSystemPasswordChar = false;
-            // 
-            // Button_SelectGPXFile
-            // 
-            this.Button_SelectGPXFile.Location = new System.Drawing.Point(154, 40);
-            this.Button_SelectGPXFile.Name = "Button_SelectGPXFile";
-            this.Button_SelectGPXFile.Size = new System.Drawing.Size(49, 23);
-            this.Button_SelectGPXFile.TabIndex = 6;
-            this.Button_SelectGPXFile.Text = "Select";
-            this.Button_SelectGPXFile.Click += new System.EventHandler(this.Button_SelectGPXFile_Click);
-            // 
-            // nsLabel3
-            // 
-            this.nsLabel3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this.nsLabel3.Location = new System.Drawing.Point(3, 69);
-            this.nsLabel3.Name = "nsLabel3";
-            this.nsLabel3.Size = new System.Drawing.Size(115, 21);
-            this.nsLabel3.TabIndex = 5;
-            this.nsLabel3.Text = "nsLabel3";
-            this.nsLabel3.Value1 = "Ignore";
-            this.nsLabel3.Value2 = "Pokestops";
-            this.nsLabel3.Click += new System.EventHandler(this.nsLabel3_Click);
-            // 
-            // nsLabel4
-            // 
-            this.nsLabel4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this.nsLabel4.Location = new System.Drawing.Point(3, 40);
-            this.nsLabel4.Name = "nsLabel4";
-            this.nsLabel4.Size = new System.Drawing.Size(115, 21);
-            this.nsLabel4.TabIndex = 4;
-            this.nsLabel4.Text = "nsLabel4";
-            this.nsLabel4.Value1 = "GPX";
-            this.nsLabel4.Value2 = "File";
-            // 
-            // GroupBox_Movement
-            // 
-            this.GroupBox_Movement.Controls.Add(this.NumUpDown_WalkingSpeed);
-            this.GroupBox_Movement.Controls.Add(this.NumUpDown_MaxTravelDistance);
-            this.GroupBox_Movement.Controls.Add(this.Label_MaxTravelDistance);
-            this.GroupBox_Movement.Controls.Add(this.Label_WalkingSpeed);
-            this.GroupBox_Movement.Controls.Add(this.ComboBox_MovementType);
-            this.GroupBox_Movement.DrawSeperator = false;
-            this.GroupBox_Movement.Location = new System.Drawing.Point(9, 152);
-            this.GroupBox_Movement.Name = "GroupBox_Movement";
-            this.GroupBox_Movement.Size = new System.Drawing.Size(230, 98);
-            this.GroupBox_Movement.SubTitle = "Details";
-            this.GroupBox_Movement.TabIndex = 3;
-            this.GroupBox_Movement.Text = "Movement";
-            this.GroupBox_Movement.Title = "Movement";
-            // 
-            // NumUpDown_WalkingSpeed
-            // 
-            this.NumUpDown_WalkingSpeed.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.NumUpDown_WalkingSpeed.DecimalPlaces = 2;
-            this.NumUpDown_WalkingSpeed.ForeColor = System.Drawing.SystemColors.Window;
-            this.NumUpDown_WalkingSpeed.Location = new System.Drawing.Point(169, 40);
-            this.NumUpDown_WalkingSpeed.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.NumUpDown_WalkingSpeed.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumUpDown_WalkingSpeed.Name = "NumUpDown_WalkingSpeed";
-            this.NumUpDown_WalkingSpeed.Size = new System.Drawing.Size(58, 20);
-            this.NumUpDown_WalkingSpeed.TabIndex = 10;
-            this.NumUpDown_WalkingSpeed.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // NumUpDown_MaxTravelDistance
-            // 
-            this.NumUpDown_MaxTravelDistance.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.NumUpDown_MaxTravelDistance.ForeColor = System.Drawing.SystemColors.Window;
-            this.NumUpDown_MaxTravelDistance.Location = new System.Drawing.Point(169, 73);
-            this.NumUpDown_MaxTravelDistance.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.NumUpDown_MaxTravelDistance.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumUpDown_MaxTravelDistance.Name = "NumUpDown_MaxTravelDistance";
-            this.NumUpDown_MaxTravelDistance.Size = new System.Drawing.Size(58, 20);
-            this.NumUpDown_MaxTravelDistance.TabIndex = 9;
-            this.NumUpDown_MaxTravelDistance.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
-            // Label_MaxTravelDistance
-            // 
-            this.Label_MaxTravelDistance.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this.Label_MaxTravelDistance.Location = new System.Drawing.Point(3, 73);
-            this.Label_MaxTravelDistance.Name = "Label_MaxTravelDistance";
-            this.Label_MaxTravelDistance.Size = new System.Drawing.Size(178, 21);
-            this.Label_MaxTravelDistance.TabIndex = 2;
-            this.Label_MaxTravelDistance.Text = "Label_MaxTravelDistance";
-            this.Label_MaxTravelDistance.Value1 = "Max.";
-            this.Label_MaxTravelDistance.Value2 = "Travel Distance (meters)";
-            // 
-            // Label_WalkingSpeed
-            // 
-            this.Label_WalkingSpeed.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this.Label_WalkingSpeed.Location = new System.Drawing.Point(3, 43);
-            this.Label_WalkingSpeed.Name = "Label_WalkingSpeed";
-            this.Label_WalkingSpeed.Size = new System.Drawing.Size(130, 15);
-            this.Label_WalkingSpeed.TabIndex = 1;
-            this.Label_WalkingSpeed.Text = "Label_WalkingSpeed";
-            this.Label_WalkingSpeed.Value1 = "Walking";
-            this.Label_WalkingSpeed.Value2 = "Speed (km/h)";
-            // 
-            // ComboBox_MovementType
-            // 
-            this.ComboBox_MovementType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.ComboBox_MovementType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.ComboBox_MovementType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBox_MovementType.ForeColor = System.Drawing.Color.White;
-            this.ComboBox_MovementType.FormattingEnabled = true;
-            this.ComboBox_MovementType.Items.AddRange(new object[] {
-            "Default",
-            "GPX Pathing",
-            "Teleport"});
-            this.ComboBox_MovementType.Location = new System.Drawing.Point(114, 3);
-            this.ComboBox_MovementType.Name = "ComboBox_MovementType";
-            this.ComboBox_MovementType.Size = new System.Drawing.Size(111, 21);
-            this.ComboBox_MovementType.TabIndex = 0;
-            // 
             // GroupBox_Coordinates
             // 
             this.GroupBox_Coordinates.Controls.Add(this.Label_DefaultAltitude);
@@ -615,7 +449,7 @@ namespace PokemonGoBot.GUI.GUI
             this.GroupBox_Coordinates.Controls.Add(this.TextBot_Longitude);
             this.GroupBox_Coordinates.Controls.Add(this.TextBot_Latitude);
             this.GroupBox_Coordinates.DrawSeperator = false;
-            this.GroupBox_Coordinates.Location = new System.Drawing.Point(155, 6);
+            this.GroupBox_Coordinates.Location = new System.Drawing.Point(152, 6);
             this.GroupBox_Coordinates.Name = "GroupBox_Coordinates";
             this.GroupBox_Coordinates.Size = new System.Drawing.Size(185, 126);
             this.GroupBox_Coordinates.SubTitle = "Default Values";
@@ -763,15 +597,236 @@ namespace PokemonGoBot.GUI.GUI
             this.ComboBox_AuthType.TabIndex = 0;
             this.ComboBox_AuthType.SelectedIndexChanged += new System.EventHandler(this.nsComboBox1_SelectedIndexChanged);
             // 
-            // tabPage2
+            // Tab_Settings_Page_MovementSettings
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.tabPage2.Location = new System.Drawing.Point(119, 4);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(621, 371);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.Tab_Settings_Page_MovementSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.Tab_Settings_Page_MovementSettings.Controls.Add(this.GroupBox_GPXPathing);
+            this.Tab_Settings_Page_MovementSettings.Controls.Add(this.nsGroupBox1);
+            this.Tab_Settings_Page_MovementSettings.Location = new System.Drawing.Point(134, 4);
+            this.Tab_Settings_Page_MovementSettings.Name = "Tab_Settings_Page_MovementSettings";
+            this.Tab_Settings_Page_MovementSettings.Size = new System.Drawing.Size(638, 371);
+            this.Tab_Settings_Page_MovementSettings.TabIndex = 2;
+            this.Tab_Settings_Page_MovementSettings.Text = "Movement Settings";
+            // 
+            // GroupBox_GPXPathing
+            // 
+            this.GroupBox_GPXPathing.Controls.Add(this.OnOff_GPXIgnorePokestops);
+            this.GroupBox_GPXPathing.Controls.Add(this.TextBot_GPXFile);
+            this.GroupBox_GPXPathing.Controls.Add(this.Button_SelectGPXFile);
+            this.GroupBox_GPXPathing.Controls.Add(this.nsLabel3);
+            this.GroupBox_GPXPathing.Controls.Add(this.nsLabel4);
+            this.GroupBox_GPXPathing.DrawSeperator = false;
+            this.GroupBox_GPXPathing.Location = new System.Drawing.Point(6, 110);
+            this.GroupBox_GPXPathing.Name = "GroupBox_GPXPathing";
+            this.GroupBox_GPXPathing.Size = new System.Drawing.Size(208, 93);
+            this.GroupBox_GPXPathing.SubTitle = "Details";
+            this.GroupBox_GPXPathing.TabIndex = 5;
+            this.GroupBox_GPXPathing.Text = "GPXPathing";
+            this.GroupBox_GPXPathing.Title = "GPXPathing";
+            // 
+            // OnOff_GPXIgnorePokestops
+            // 
+            this.OnOff_GPXIgnorePokestops.Checked = false;
+            this.OnOff_GPXIgnorePokestops.Location = new System.Drawing.Point(149, 66);
+            this.OnOff_GPXIgnorePokestops.MaximumSize = new System.Drawing.Size(56, 24);
+            this.OnOff_GPXIgnorePokestops.MinimumSize = new System.Drawing.Size(56, 24);
+            this.OnOff_GPXIgnorePokestops.Name = "OnOff_GPXIgnorePokestops";
+            this.OnOff_GPXIgnorePokestops.Size = new System.Drawing.Size(56, 24);
+            this.OnOff_GPXIgnorePokestops.TabIndex = 8;
+            this.OnOff_GPXIgnorePokestops.Text = "OnOff_GPXIgnorePokestops";
+            // 
+            // TextBot_GPXFile
+            // 
+            this.TextBot_GPXFile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.TextBot_GPXFile.Location = new System.Drawing.Point(56, 40);
+            this.TextBot_GPXFile.MaxLength = 32767;
+            this.TextBot_GPXFile.Multiline = false;
+            this.TextBot_GPXFile.Name = "TextBot_GPXFile";
+            this.TextBot_GPXFile.ReadOnly = false;
+            this.TextBot_GPXFile.Size = new System.Drawing.Size(92, 23);
+            this.TextBot_GPXFile.TabIndex = 7;
+            this.TextBot_GPXFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TextBot_GPXFile.UseSystemPasswordChar = false;
+            // 
+            // Button_SelectGPXFile
+            // 
+            this.Button_SelectGPXFile.Location = new System.Drawing.Point(154, 40);
+            this.Button_SelectGPXFile.Name = "Button_SelectGPXFile";
+            this.Button_SelectGPXFile.Size = new System.Drawing.Size(49, 23);
+            this.Button_SelectGPXFile.TabIndex = 6;
+            this.Button_SelectGPXFile.Text = "Select";
+            this.Button_SelectGPXFile.Click += new System.EventHandler(this.Button_SelectGPXFile_Click);
+            // 
+            // nsLabel3
+            // 
+            this.nsLabel3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel3.Location = new System.Drawing.Point(3, 69);
+            this.nsLabel3.Name = "nsLabel3";
+            this.nsLabel3.Size = new System.Drawing.Size(115, 21);
+            this.nsLabel3.TabIndex = 5;
+            this.nsLabel3.Text = "nsLabel3";
+            this.nsLabel3.Value1 = "Ignore";
+            this.nsLabel3.Value2 = "Pokestops";
+            // 
+            // nsLabel4
+            // 
+            this.nsLabel4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel4.Location = new System.Drawing.Point(3, 40);
+            this.nsLabel4.Name = "nsLabel4";
+            this.nsLabel4.Size = new System.Drawing.Size(115, 21);
+            this.nsLabel4.TabIndex = 4;
+            this.nsLabel4.Text = "nsLabel4";
+            this.nsLabel4.Value1 = "GPX";
+            this.nsLabel4.Value2 = "File";
+            // 
+            // nsGroupBox1
+            // 
+            this.nsGroupBox1.Controls.Add(this.NumUpDown_WalkingSpeed);
+            this.nsGroupBox1.Controls.Add(this.NumUpDown_MaxTravelDistance);
+            this.nsGroupBox1.Controls.Add(this.nsLabel2);
+            this.nsGroupBox1.Controls.Add(this.nsLabel5);
+            this.nsGroupBox1.Controls.Add(this.ComboBox_MovementType);
+            this.nsGroupBox1.DrawSeperator = false;
+            this.nsGroupBox1.Location = new System.Drawing.Point(6, 6);
+            this.nsGroupBox1.Name = "nsGroupBox1";
+            this.nsGroupBox1.Size = new System.Drawing.Size(230, 98);
+            this.nsGroupBox1.SubTitle = "Details";
+            this.nsGroupBox1.TabIndex = 4;
+            this.nsGroupBox1.Text = "Movement";
+            this.nsGroupBox1.Title = "Movement";
+            // 
+            // NumUpDown_WalkingSpeed
+            // 
+            this.NumUpDown_WalkingSpeed.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.NumUpDown_WalkingSpeed.DecimalPlaces = 2;
+            this.NumUpDown_WalkingSpeed.ForeColor = System.Drawing.SystemColors.Window;
+            this.NumUpDown_WalkingSpeed.Location = new System.Drawing.Point(169, 40);
+            this.NumUpDown_WalkingSpeed.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.NumUpDown_WalkingSpeed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NumUpDown_WalkingSpeed.Name = "NumUpDown_WalkingSpeed";
+            this.NumUpDown_WalkingSpeed.Size = new System.Drawing.Size(58, 20);
+            this.NumUpDown_WalkingSpeed.TabIndex = 10;
+            this.NumUpDown_WalkingSpeed.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            // 
+            // NumUpDown_MaxTravelDistance
+            // 
+            this.NumUpDown_MaxTravelDistance.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.NumUpDown_MaxTravelDistance.ForeColor = System.Drawing.SystemColors.Window;
+            this.NumUpDown_MaxTravelDistance.Location = new System.Drawing.Point(169, 73);
+            this.NumUpDown_MaxTravelDistance.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.NumUpDown_MaxTravelDistance.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NumUpDown_MaxTravelDistance.Name = "NumUpDown_MaxTravelDistance";
+            this.NumUpDown_MaxTravelDistance.Size = new System.Drawing.Size(58, 20);
+            this.NumUpDown_MaxTravelDistance.TabIndex = 9;
+            this.NumUpDown_MaxTravelDistance.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // nsLabel2
+            // 
+            this.nsLabel2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel2.Location = new System.Drawing.Point(3, 73);
+            this.nsLabel2.Name = "nsLabel2";
+            this.nsLabel2.Size = new System.Drawing.Size(178, 21);
+            this.nsLabel2.TabIndex = 2;
+            this.nsLabel2.Text = "nsLabel2";
+            this.nsLabel2.Value1 = "Max.";
+            this.nsLabel2.Value2 = "Travel Distance (meters)";
+            // 
+            // nsLabel5
+            // 
+            this.nsLabel5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel5.Location = new System.Drawing.Point(3, 43);
+            this.nsLabel5.Name = "nsLabel5";
+            this.nsLabel5.Size = new System.Drawing.Size(130, 15);
+            this.nsLabel5.TabIndex = 1;
+            this.nsLabel5.Text = "nsLabel5";
+            this.nsLabel5.Value1 = "Walking";
+            this.nsLabel5.Value2 = "Speed (km/h)";
+            // 
+            // ComboBox_MovementType
+            // 
+            this.ComboBox_MovementType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.ComboBox_MovementType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.ComboBox_MovementType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBox_MovementType.ForeColor = System.Drawing.Color.White;
+            this.ComboBox_MovementType.FormattingEnabled = true;
+            this.ComboBox_MovementType.Items.AddRange(new object[] {
+            "Default",
+            "GPX Pathing",
+            "Teleport"});
+            this.ComboBox_MovementType.Location = new System.Drawing.Point(114, 3);
+            this.ComboBox_MovementType.Name = "ComboBox_MovementType";
+            this.ComboBox_MovementType.Size = new System.Drawing.Size(111, 21);
+            this.ComboBox_MovementType.TabIndex = 0;
+            // 
+            // Tab_Settings_Page_CatchSettings
+            // 
+            this.Tab_Settings_Page_CatchSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.Tab_Settings_Page_CatchSettings.Location = new System.Drawing.Point(134, 4);
+            this.Tab_Settings_Page_CatchSettings.Name = "Tab_Settings_Page_CatchSettings";
+            this.Tab_Settings_Page_CatchSettings.Size = new System.Drawing.Size(638, 371);
+            this.Tab_Settings_Page_CatchSettings.TabIndex = 5;
+            this.Tab_Settings_Page_CatchSettings.Text = "Catch Settings";
+            // 
+            // Tab_Settings_Page_EvolveSettings
+            // 
+            this.Tab_Settings_Page_EvolveSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.Tab_Settings_Page_EvolveSettings.Location = new System.Drawing.Point(134, 4);
+            this.Tab_Settings_Page_EvolveSettings.Name = "Tab_Settings_Page_EvolveSettings";
+            this.Tab_Settings_Page_EvolveSettings.Size = new System.Drawing.Size(638, 371);
+            this.Tab_Settings_Page_EvolveSettings.TabIndex = 3;
+            this.Tab_Settings_Page_EvolveSettings.Text = "Evolve Settings";
+            // 
+            // Tab_Settings_Page_TransferSettings
+            // 
+            this.Tab_Settings_Page_TransferSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.Tab_Settings_Page_TransferSettings.Location = new System.Drawing.Point(134, 4);
+            this.Tab_Settings_Page_TransferSettings.Name = "Tab_Settings_Page_TransferSettings";
+            this.Tab_Settings_Page_TransferSettings.Size = new System.Drawing.Size(638, 371);
+            this.Tab_Settings_Page_TransferSettings.TabIndex = 4;
+            this.Tab_Settings_Page_TransferSettings.Text = "Transfer Settings";
+            // 
+            // Tab_Settings_Page_InventorySettings
+            // 
+            this.Tab_Settings_Page_InventorySettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.Tab_Settings_Page_InventorySettings.Location = new System.Drawing.Point(134, 4);
+            this.Tab_Settings_Page_InventorySettings.Name = "Tab_Settings_Page_InventorySettings";
+            this.Tab_Settings_Page_InventorySettings.Size = new System.Drawing.Size(638, 371);
+            this.Tab_Settings_Page_InventorySettings.TabIndex = 6;
+            this.Tab_Settings_Page_InventorySettings.Text = "Inventory Settings";
+            // 
+            // Tab_Settings_Page_UseItemsSettings
+            // 
+            this.Tab_Settings_Page_UseItemsSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.Tab_Settings_Page_UseItemsSettings.Location = new System.Drawing.Point(134, 4);
+            this.Tab_Settings_Page_UseItemsSettings.Name = "Tab_Settings_Page_UseItemsSettings";
+            this.Tab_Settings_Page_UseItemsSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Settings_Page_UseItemsSettings.Size = new System.Drawing.Size(638, 371);
+            this.Tab_Settings_Page_UseItemsSettings.TabIndex = 1;
+            this.Tab_Settings_Page_UseItemsSettings.Text = "Use Items Settings";
             // 
             // Gui
             // 
@@ -792,12 +847,13 @@ namespace PokemonGoBot.GUI.GUI
             this.GroupBox_Others.ResumeLayout(false);
             this.GroupBox_Proxy.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_ProxyPort)).EndInit();
-            this.GroupBox_GPXPathing.ResumeLayout(false);
-            this.GroupBox_Movement.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_WalkingSpeed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_MaxTravelDistance)).EndInit();
             this.GroupBox_Coordinates.ResumeLayout(false);
             this.GroupBox_Login.ResumeLayout(false);
+            this.Tab_Settings_Page_MovementSettings.ResumeLayout(false);
+            this.GroupBox_GPXPathing.ResumeLayout(false);
+            this.nsGroupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_WalkingSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_MaxTravelDistance)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -817,7 +873,7 @@ namespace PokemonGoBot.GUI.GUI
         private System.Windows.Forms.TabPage TabPage_Inventory;
         private NSTabControl nsTabControl1;
         private System.Windows.Forms.TabPage Tab_Settings_Page_GeneralSettings;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage Tab_Settings_Page_UseItemsSettings;
         private NSGroupBox GroupBox_Login;
         private NSComboBox ComboBox_AuthType;
         private NSTextBox TextBox_UserPassword;
@@ -826,15 +882,6 @@ namespace PokemonGoBot.GUI.GUI
         private NSTextBox TextBot_Altitude;
         private NSTextBox TextBot_Longitude;
         private NSTextBox TextBot_Latitude;
-        private NSGroupBox GroupBox_Movement;
-        private NSComboBox ComboBox_MovementType;
-        private NSLabel Label_WalkingSpeed;
-        private NSLabel Label_MaxTravelDistance;
-        private NSGroupBox GroupBox_GPXPathing;
-        private NSLabel nsLabel4;
-        private NSLabel nsLabel3;
-        private System.Windows.Forms.NumericUpDown NumUpDown_MaxTravelDistance;
-        private System.Windows.Forms.NumericUpDown NumUpDown_WalkingSpeed;
         private NSGroupBox GroupBox_Proxy;
         private NSOnOffBox OnOff_UseProxy;
         private NSTextBox TextBox_ProxyPassword;
@@ -850,10 +897,24 @@ namespace PokemonGoBot.GUI.GUI
         private NSLabel Label_DefaultAltitude;
         private NSLabel Label_DefaultLongitude;
         private System.Windows.Forms.NumericUpDown NumUpDown_ProxyPort;
-        private NSButton Button_SelectGPXFile;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private NSTextBox TextBot_GPXFile;
+        private System.Windows.Forms.TabPage Tab_Settings_Page_MovementSettings;
+        private NSGroupBox GroupBox_GPXPathing;
         private NSOnOffBox OnOff_GPXIgnorePokestops;
+        private NSTextBox TextBot_GPXFile;
+        private NSButton Button_SelectGPXFile;
+        private NSLabel nsLabel3;
+        private NSLabel nsLabel4;
+        private NSGroupBox nsGroupBox1;
+        private System.Windows.Forms.NumericUpDown NumUpDown_WalkingSpeed;
+        private System.Windows.Forms.NumericUpDown NumUpDown_MaxTravelDistance;
+        private NSLabel nsLabel2;
+        private NSLabel nsLabel5;
+        private NSComboBox ComboBox_MovementType;
+        private System.Windows.Forms.TabPage Tab_Settings_Page_CatchSettings;
+        private System.Windows.Forms.TabPage Tab_Settings_Page_EvolveSettings;
+        private System.Windows.Forms.TabPage Tab_Settings_Page_TransferSettings;
+        private System.Windows.Forms.TabPage Tab_Settings_Page_InventorySettings;
     }
 }
 
