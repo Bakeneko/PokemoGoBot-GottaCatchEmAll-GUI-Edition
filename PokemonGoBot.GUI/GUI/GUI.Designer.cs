@@ -30,6 +30,7 @@ namespace PokemonGoBot.GUI.GUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.nsTheme1 = new PokemonGoBot.GUI.GUI.Theme.NSTheme();
             this.Bot_Close = new PokemonGoBot.GUI.GUI.Theme.NSButton();
             this.Settings_Save = new PokemonGoBot.GUI.GUI.Theme.NSButton();
@@ -56,6 +57,9 @@ namespace PokemonGoBot.GUI.GUI
             this.TextBox_ProxyHost = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
             this.OnOff_UseProxy = new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox();
             this.GroupBox_GPXPathing = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
+            this.OnOff_GPXIgnorePokestops = new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox();
+            this.TextBot_GPXFile = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
+            this.Button_SelectGPXFile = new PokemonGoBot.GUI.GUI.Theme.NSButton();
             this.nsLabel3 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
             this.nsLabel4 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
             this.GroupBox_Movement = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
@@ -91,6 +95,10 @@ namespace PokemonGoBot.GUI.GUI
             this.GroupBox_Coordinates.SuspendLayout();
             this.GroupBox_Login.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // nsTheme1
             // 
@@ -425,16 +433,52 @@ namespace PokemonGoBot.GUI.GUI
             // 
             // GroupBox_GPXPathing
             // 
+            this.GroupBox_GPXPathing.Controls.Add(this.OnOff_GPXIgnorePokestops);
+            this.GroupBox_GPXPathing.Controls.Add(this.TextBot_GPXFile);
+            this.GroupBox_GPXPathing.Controls.Add(this.Button_SelectGPXFile);
             this.GroupBox_GPXPathing.Controls.Add(this.nsLabel3);
             this.GroupBox_GPXPathing.Controls.Add(this.nsLabel4);
             this.GroupBox_GPXPathing.DrawSeperator = false;
             this.GroupBox_GPXPathing.Location = new System.Drawing.Point(9, 256);
             this.GroupBox_GPXPathing.Name = "GroupBox_GPXPathing";
-            this.GroupBox_GPXPathing.Size = new System.Drawing.Size(263, 93);
+            this.GroupBox_GPXPathing.Size = new System.Drawing.Size(208, 93);
             this.GroupBox_GPXPathing.SubTitle = "Details";
             this.GroupBox_GPXPathing.TabIndex = 4;
             this.GroupBox_GPXPathing.Text = "GPXPathing";
             this.GroupBox_GPXPathing.Title = "GPXPathing";
+            // 
+            // OnOff_GPXIgnorePokestops
+            // 
+            this.OnOff_GPXIgnorePokestops.Checked = false;
+            this.OnOff_GPXIgnorePokestops.Location = new System.Drawing.Point(149, 66);
+            this.OnOff_GPXIgnorePokestops.MaximumSize = new System.Drawing.Size(56, 24);
+            this.OnOff_GPXIgnorePokestops.MinimumSize = new System.Drawing.Size(56, 24);
+            this.OnOff_GPXIgnorePokestops.Name = "OnOff_GPXIgnorePokestops";
+            this.OnOff_GPXIgnorePokestops.Size = new System.Drawing.Size(56, 24);
+            this.OnOff_GPXIgnorePokestops.TabIndex = 8;
+            this.OnOff_GPXIgnorePokestops.Text = "OnOff_GPXIgnorePokestops";
+            // 
+            // TextBot_GPXFile
+            // 
+            this.TextBot_GPXFile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.TextBot_GPXFile.Location = new System.Drawing.Point(56, 40);
+            this.TextBot_GPXFile.MaxLength = 32767;
+            this.TextBot_GPXFile.Multiline = false;
+            this.TextBot_GPXFile.Name = "TextBot_GPXFile";
+            this.TextBot_GPXFile.ReadOnly = false;
+            this.TextBot_GPXFile.Size = new System.Drawing.Size(92, 23);
+            this.TextBot_GPXFile.TabIndex = 7;
+            this.TextBot_GPXFile.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TextBot_GPXFile.UseSystemPasswordChar = false;
+            // 
+            // Button_SelectGPXFile
+            // 
+            this.Button_SelectGPXFile.Location = new System.Drawing.Point(154, 40);
+            this.Button_SelectGPXFile.Name = "Button_SelectGPXFile";
+            this.Button_SelectGPXFile.Size = new System.Drawing.Size(49, 23);
+            this.Button_SelectGPXFile.TabIndex = 6;
+            this.Button_SelectGPXFile.Text = "Select";
+            this.Button_SelectGPXFile.Click += new System.EventHandler(this.Button_SelectGPXFile_Click);
             // 
             // nsLabel3
             // 
@@ -806,6 +850,10 @@ namespace PokemonGoBot.GUI.GUI
         private NSLabel Label_DefaultAltitude;
         private NSLabel Label_DefaultLongitude;
         private System.Windows.Forms.NumericUpDown NumUpDown_ProxyPort;
+        private NSButton Button_SelectGPXFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private NSTextBox TextBot_GPXFile;
+        private NSOnOffBox OnOff_GPXIgnorePokestops;
     }
 }
 

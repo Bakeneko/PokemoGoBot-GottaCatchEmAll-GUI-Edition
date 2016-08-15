@@ -21,6 +21,12 @@ namespace PokemonGoBot.GUI.GUI
             TextBox_UserNameOrEmail.Text = ConfigurationManager.AppSettings["UserNameOrEmail"];
             TextBox_UserPassword.Text = ConfigurationManager.AppSettings["UserPassword"];
 
+            OnOff_UseProxy.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["UseProxy"]);
+            TextBox_ProxyHost.Text = ConfigurationManager.AppSettings["ProxyHost"];
+            NumUpDown_ProxyPort.Value = Convert.ToDecimal(ConfigurationManager.AppSettings["ProxyPort"]);
+            TextBox_ProxyUsername.Text = ConfigurationManager.AppSettings["ProxyUsername"];
+            TextBox_ProxyPassword.Text = ConfigurationManager.AppSettings["ProxyPassword"];
+
             TextBot_Latitude.Text = ConfigurationManager.AppSettings["DefaultLatitude"];
             TextBot_Longitude.Text = ConfigurationManager.AppSettings["DefaultLongitude"];
             TextBot_Altitude.Text = ConfigurationManager.AppSettings["DefaultAltitude"];
@@ -29,11 +35,8 @@ namespace PokemonGoBot.GUI.GUI
             NumUpDown_WalkingSpeed.Value = Convert.ToDecimal(ConfigurationManager.AppSettings["WalkingSpeedInKilometerPerHour"]);
             NumUpDown_MaxTravelDistance.Value = Convert.ToDecimal(ConfigurationManager.AppSettings["MaxTravelDistanceInMeters"]);
 
-            OnOff_UseProxy.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["UseProxy"]);
-            TextBox_ProxyHost.Text = ConfigurationManager.AppSettings["ProxyHost"];
-            NumUpDown_ProxyPort.Value = Convert.ToDecimal(ConfigurationManager.AppSettings["ProxyPort"]);
-            TextBox_ProxyUsername.Text = ConfigurationManager.AppSettings["ProxyUsername"];
-            TextBox_ProxyPassword.Text = ConfigurationManager.AppSettings["ProxyPassword"];
+            TextBot_GPXFile.Text = ConfigurationManager.AppSettings["GPXFile"];
+            OnOff_GPXIgnorePokestops.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["GPXIgnorePokestops"]);
 
             OnOff_DebugMode.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["DebugMode"]);
         }
@@ -46,6 +49,12 @@ namespace PokemonGoBot.GUI.GUI
             config.AppSettings.Settings["UserNameOrEmail"].Value = TextBox_UserNameOrEmail.Text;
             config.AppSettings.Settings["UserPassword"].Value = TextBox_UserPassword.Text;
 
+            config.AppSettings.Settings["UseProxy"].Value = OnOff_UseProxy.Checked.ToString();
+            config.AppSettings.Settings["ProxyHost"].Value = TextBox_ProxyHost.Text;
+            config.AppSettings.Settings["ProxyPort"].Value = NumUpDown_ProxyPort.Text;
+            config.AppSettings.Settings["ProxyUsername"].Value = TextBox_ProxyUsername.Text;
+            config.AppSettings.Settings["ProxyPassword"].Value = TextBox_ProxyPassword.Text;
+
             config.AppSettings.Settings["DefaultLatitude"].Value = TextBot_Latitude.Text;
             config.AppSettings.Settings["DefaultLongitude"].Value = TextBot_Longitude.Text;
             config.AppSettings.Settings["DefaultAltitude"].Value = TextBot_Altitude.Text;
@@ -54,11 +63,8 @@ namespace PokemonGoBot.GUI.GUI
             config.AppSettings.Settings["WalkingSpeedInKilometerPerHour"].Value = NumUpDown_WalkingSpeed.Value.ToString();
             config.AppSettings.Settings["MaxTravelDistanceInMeters"].Value = NumUpDown_MaxTravelDistance.Value.ToString();
 
-            config.AppSettings.Settings["UseProxy"].Value = OnOff_UseProxy.Checked.ToString();
-            config.AppSettings.Settings["ProxyHost"].Value = TextBox_ProxyHost.Text;
-            config.AppSettings.Settings["ProxyPort"].Value = NumUpDown_ProxyPort.Text;
-            config.AppSettings.Settings["ProxyUsername"].Value = TextBox_ProxyUsername.Text;
-            config.AppSettings.Settings["ProxyPassword"].Value = TextBox_ProxyPassword.Text;
+            config.AppSettings.Settings["GPXFile"].Value = TextBot_GPXFile.Text;
+            config.AppSettings.Settings["GPXIgnorePokestops"].Value = OnOff_GPXIgnorePokestops.Checked.ToString();
 
             config.AppSettings.Settings["DebugMode"].Value = OnOff_DebugMode.Checked.ToString();
 
@@ -99,6 +105,16 @@ namespace PokemonGoBot.GUI.GUI
         private void nsLabel3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Button_SelectGPXFile_Click(object sender, EventArgs e)
+        {
+            var FD = new OpenFileDialog();
+            if (FD.ShowDialog() == DialogResult.OK)
+            {
+                string fileToOpen = FD.FileName;
+                TextBot_GPXFile.Text = fileToOpen;
+            }
         }
     }
 }
