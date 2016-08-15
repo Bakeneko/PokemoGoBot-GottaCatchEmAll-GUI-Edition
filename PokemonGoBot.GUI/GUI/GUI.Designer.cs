@@ -1,4 +1,5 @@
 ﻿using PokemonGoBot.GUI.GUI.Theme;
+using PokemonGoBot.Logic.Utils;
 
 namespace PokemonGoBot.GUI.GUI
 {
@@ -39,6 +40,16 @@ namespace PokemonGoBot.GUI.GUI
             this.Debug_Label = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
             this.TabControl_Main = new PokemonGoBot.GUI.GUI.Theme.NSTabControl();
             this.TabPage_Main = new System.Windows.Forms.TabPage();
+            this.GroupBox_Statistics = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
+            this.nsLabel14 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel13 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel12 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel11 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel10 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel9 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel8 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel7 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel6 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
             this.TabPage_Pokemon = new System.Windows.Forms.TabPage();
             this.TabPage_Inventory = new System.Windows.Forms.TabPage();
             this.TabPage_Settings = new System.Windows.Forms.TabPage();
@@ -85,8 +96,15 @@ namespace PokemonGoBot.GUI.GUI
             this.Tab_Settings_Page_TransferSettings = new System.Windows.Forms.TabPage();
             this.Tab_Settings_Page_InventorySettings = new System.Windows.Forms.TabPage();
             this.Tab_Settings_Page_UseItemsSettings = new System.Windows.Forms.TabPage();
+            this.nsLabel15 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel16 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel17 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel18 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
+            this.nsLabel19 = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
             this.nsTheme1.SuspendLayout();
             this.TabControl_Main.SuspendLayout();
+            this.TabPage_Main.SuspendLayout();
+            this.GroupBox_Statistics.SuspendLayout();
             this.TabPage_Settings.SuspendLayout();
             this.nsTabControl1.SuspendLayout();
             this.Tab_Settings_Page_GeneralSettings.SuspendLayout();
@@ -130,7 +148,7 @@ namespace PokemonGoBot.GUI.GUI
             this.nsTheme1.SmartBounds = true;
             this.nsTheme1.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultLocation;
             this.nsTheme1.TabIndex = 0;
-            this.nsTheme1.Text = "Pokemon GO Bot - Gotta Catch \'Em All - GUI Edition";
+            this.nsTheme1.Text = "Pokemon GO Bot - Gotta Catch \'Em All - GUI Edition // Version: 2016.8.15.386";
             this.nsTheme1.TransparencyKey = System.Drawing.Color.Empty;
             this.nsTheme1.Transparent = false;
             // 
@@ -207,12 +225,137 @@ namespace PokemonGoBot.GUI.GUI
             // TabPage_Main
             // 
             this.TabPage_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.TabPage_Main.Controls.Add(this.GroupBox_Statistics);
             this.TabPage_Main.Location = new System.Drawing.Point(84, 4);
             this.TabPage_Main.Name = "TabPage_Main";
             this.TabPage_Main.Padding = new System.Windows.Forms.Padding(3);
             this.TabPage_Main.Size = new System.Drawing.Size(788, 391);
             this.TabPage_Main.TabIndex = 0;
             this.TabPage_Main.Text = "Main";
+            // 
+            // GroupBox_Statistics
+            // 
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel19);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel18);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel17);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel16);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel15);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel14);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel13);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel12);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel11);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel10);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel9);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel8);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel7);
+            this.GroupBox_Statistics.Controls.Add(this.nsLabel6);
+            this.GroupBox_Statistics.DrawSeperator = false;
+            this.GroupBox_Statistics.Location = new System.Drawing.Point(6, 6);
+            this.GroupBox_Statistics.Name = "GroupBox_Statistics";
+            this.GroupBox_Statistics.Size = new System.Drawing.Size(368, 297);
+            this.GroupBox_Statistics.SubTitle = "Details";
+            this.GroupBox_Statistics.TabIndex = 0;
+            this.GroupBox_Statistics.Text = "GroupBox_Statistics";
+            this.GroupBox_Statistics.Title = "Statistics";
+            // 
+            // nsLabel14
+            // 
+            this.nsLabel14.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel14.Location = new System.Drawing.Point(3, 276);
+            this.nsLabel14.Name = "nsLabel14";
+            this.nsLabel14.Size = new System.Drawing.Size(154, 15);
+            this.nsLabel14.TabIndex = 12;
+            this.nsLabel14.Text = "nsLabel14";
+            this.nsLabel14.Value1 = "Km Walked";
+            this.nsLabel14.Value2 = "(this Session)";
+            // 
+            // nsLabel13
+            // 
+            this.nsLabel13.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel13.Location = new System.Drawing.Point(207, 82);
+            this.nsLabel13.Name = "nsLabel13";
+            this.nsLabel13.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel13.TabIndex = 11;
+            this.nsLabel13.Text = "nsLabel13";
+            this.nsLabel13.Value1 = "per";
+            this.nsLabel13.Value2 = "Hour";
+            // 
+            // nsLabel12
+            // 
+            this.nsLabel12.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel12.Location = new System.Drawing.Point(3, 210);
+            this.nsLabel12.Name = "nsLabel12";
+            this.nsLabel12.Size = new System.Drawing.Size(117, 15);
+            this.nsLabel12.TabIndex = 10;
+            this.nsLabel12.Text = "nsLabel12";
+            this.nsLabel12.Value1 = "Pokemon";
+            this.nsLabel12.Value2 = "Transferred";
+            // 
+            // nsLabel11
+            // 
+            this.nsLabel11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel11.Location = new System.Drawing.Point(3, 189);
+            this.nsLabel11.Name = "nsLabel11";
+            this.nsLabel11.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel11.TabIndex = 9;
+            this.nsLabel11.Text = "nsLabel11";
+            this.nsLabel11.Value1 = "Pokemon";
+            this.nsLabel11.Value2 = "Evolved";
+            // 
+            // nsLabel10
+            // 
+            this.nsLabel10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel10.Location = new System.Drawing.Point(3, 168);
+            this.nsLabel10.Name = "nsLabel10";
+            this.nsLabel10.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel10.TabIndex = 8;
+            this.nsLabel10.Text = "nsLabel10";
+            this.nsLabel10.Value1 = "Pokemon";
+            this.nsLabel10.Value2 = "Caught";
+            // 
+            // nsLabel9
+            // 
+            this.nsLabel9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel9.Location = new System.Drawing.Point(3, 82);
+            this.nsLabel9.Name = "nsLabel9";
+            this.nsLabel9.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel9.TabIndex = 7;
+            this.nsLabel9.Text = "nsLabel9";
+            this.nsLabel9.Value1 = "Current";
+            this.nsLabel9.Value2 = "Stardust";
+            // 
+            // nsLabel8
+            // 
+            this.nsLabel8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel8.Location = new System.Drawing.Point(3, 103);
+            this.nsLabel8.Name = "nsLabel8";
+            this.nsLabel8.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel8.TabIndex = 6;
+            this.nsLabel8.Text = "nsLabel8";
+            this.nsLabel8.Value1 = "Current";
+            this.nsLabel8.Value2 = "Pokemon";
+            // 
+            // nsLabel7
+            // 
+            this.nsLabel7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel7.Location = new System.Drawing.Point(3, 124);
+            this.nsLabel7.Name = "nsLabel7";
+            this.nsLabel7.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel7.TabIndex = 5;
+            this.nsLabel7.Text = "nsLabel7";
+            this.nsLabel7.Value1 = "Current";
+            this.nsLabel7.Value2 = "PokeDex";
+            // 
+            // nsLabel6
+            // 
+            this.nsLabel6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel6.Location = new System.Drawing.Point(3, 40);
+            this.nsLabel6.Name = "nsLabel6";
+            this.nsLabel6.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel6.TabIndex = 4;
+            this.nsLabel6.Text = "nsLabel6";
+            this.nsLabel6.Value1 = "Current";
+            this.nsLabel6.Value2 = "Level";
             // 
             // TabPage_Pokemon
             // 
@@ -828,6 +971,61 @@ namespace PokemonGoBot.GUI.GUI
             this.Tab_Settings_Page_UseItemsSettings.TabIndex = 1;
             this.Tab_Settings_Page_UseItemsSettings.Text = "Use Items Settings";
             // 
+            // nsLabel15
+            // 
+            this.nsLabel15.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel15.Location = new System.Drawing.Point(207, 61);
+            this.nsLabel15.Name = "nsLabel15";
+            this.nsLabel15.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel15.TabIndex = 13;
+            this.nsLabel15.Text = "nsLabel15";
+            this.nsLabel15.Value1 = "per";
+            this.nsLabel15.Value2 = "Hour";
+            // 
+            // nsLabel16
+            // 
+            this.nsLabel16.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel16.Location = new System.Drawing.Point(3, 61);
+            this.nsLabel16.Name = "nsLabel16";
+            this.nsLabel16.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel16.TabIndex = 14;
+            this.nsLabel16.Text = "nsLabel16";
+            this.nsLabel16.Value1 = "Current";
+            this.nsLabel16.Value2 = "Experience";
+            // 
+            // nsLabel17
+            // 
+            this.nsLabel17.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel17.Location = new System.Drawing.Point(207, 168);
+            this.nsLabel17.Name = "nsLabel17";
+            this.nsLabel17.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel17.TabIndex = 15;
+            this.nsLabel17.Text = "nsLabel17";
+            this.nsLabel17.Value1 = "per";
+            this.nsLabel17.Value2 = "Hour";
+            // 
+            // nsLabel18
+            // 
+            this.nsLabel18.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel18.Location = new System.Drawing.Point(207, 40);
+            this.nsLabel18.Name = "nsLabel18";
+            this.nsLabel18.Size = new System.Drawing.Size(101, 15);
+            this.nsLabel18.TabIndex = 16;
+            this.nsLabel18.Text = "nsLabel18";
+            this.nsLabel18.Value1 = "LevelUp";
+            this.nsLabel18.Value2 = "in";
+            // 
+            // nsLabel19
+            // 
+            this.nsLabel19.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this.nsLabel19.Location = new System.Drawing.Point(3, 244);
+            this.nsLabel19.Name = "nsLabel19";
+            this.nsLabel19.Size = new System.Drawing.Size(117, 15);
+            this.nsLabel19.TabIndex = 17;
+            this.nsLabel19.Text = "nsLabel19";
+            this.nsLabel19.Value1 = "Items";
+            this.nsLabel19.Value2 = "Recycled";
+            // 
             // Gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -841,6 +1039,8 @@ namespace PokemonGoBot.GUI.GUI
             this.nsTheme1.ResumeLayout(false);
             this.nsTheme1.PerformLayout();
             this.TabControl_Main.ResumeLayout(false);
+            this.TabPage_Main.ResumeLayout(false);
+            this.GroupBox_Statistics.ResumeLayout(false);
             this.TabPage_Settings.ResumeLayout(false);
             this.nsTabControl1.ResumeLayout(false);
             this.Tab_Settings_Page_GeneralSettings.ResumeLayout(false);
@@ -915,6 +1115,21 @@ namespace PokemonGoBot.GUI.GUI
         private System.Windows.Forms.TabPage Tab_Settings_Page_EvolveSettings;
         private System.Windows.Forms.TabPage Tab_Settings_Page_TransferSettings;
         private System.Windows.Forms.TabPage Tab_Settings_Page_InventorySettings;
+        private NSGroupBox GroupBox_Statistics;
+        private NSLabel nsLabel6;
+        private NSLabel nsLabel9;
+        private NSLabel nsLabel8;
+        private NSLabel nsLabel7;
+        private NSLabel nsLabel13;
+        private NSLabel nsLabel12;
+        private NSLabel nsLabel11;
+        private NSLabel nsLabel10;
+        private NSLabel nsLabel14;
+        private NSLabel nsLabel15;
+        private NSLabel nsLabel16;
+        private NSLabel nsLabel17;
+        private NSLabel nsLabel18;
+        private NSLabel nsLabel19;
     }
 }
 

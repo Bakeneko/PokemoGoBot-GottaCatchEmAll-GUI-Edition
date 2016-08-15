@@ -4,7 +4,11 @@ using System.Windows.Forms;
 using PokemonGoBot.GUI.Settings;
 using RocketAPI.Enums;
 using System.Configuration;
+using System.Drawing;
 using System.Globalization;
+using GMap.NET;
+using GMap.NET.MapProviders;
+using GMap.NET.WindowsForms.Markers;
 
 namespace PokemonGoBot.GUI.GUI
 {
