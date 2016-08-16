@@ -233,19 +233,19 @@ FirmwareFingerprint = "OnePlus/OnePlus2/OnePlus2:6.0.1/MMB29M/1447840820:user/re
         }
         public static void SetDevice(ISettings settings)
         {
-            // Do some post-load logic to determine what device info to be using - if 'custom' is set we just take what's in the file without question
-            if (!settings.DevicePackageName.Equals("random", StringComparison.InvariantCultureIgnoreCase))
-            {
-                // User requested a specific device package, check to see if it exists and if so, set it up - otherwise fall-back to random package
-                SetDevInfoByKey(settings.DevicePackageName);
-            }
-            else if (settings.DevicePackageName.Equals("random", StringComparison.InvariantCultureIgnoreCase))
+            if (settings.DeviceType == "Random")
             {
                 // Random is set, so pick a random device package and set it up - it will get saved to disk below and re-used in subsequent sessions
                 Random rnd = new Random();
                 var rndIdx = rnd.Next(0, DeviceInfoHelper.DeviceInfoSets.Keys.Count - 1);
                 var devicePackageName = DeviceInfoHelper.DeviceInfoSets.Keys.ToArray()[rndIdx];
                 SetDevInfoByKey(devicePackageName);
+            }
+            // Do some post-load logic to determine what device info to be using - if 'custom' is set we just take what's in the file without question
+            else if(settings.DeviceType == "Preconfigured")
+            {
+                // User requested a specific device package, check to see if it exists and if so, set it up - otherwise fall-back to random package
+                SetDevInfoByKey(settings.DevicePackageName);
             }
         }
         private static void SetDevInfoByKey(string devicePackageName)

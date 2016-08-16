@@ -30,41 +30,70 @@ namespace PokemonGoBot.GUI.Settings
 
             SettingsKeys.Add("UseProxy", "false");
             SettingsKeys.Add("ProxyHost", "0.0.0.0");
-            SettingsKeys.Add("ProxyPort", "0001");
+            SettingsKeys.Add("ProxyPort", "0000");
             SettingsKeys.Add("ProxyUsername", "");
             SettingsKeys.Add("ProxyPassword", "");
 
-            SettingsKeys.Add("UsePokemonToNotCatchList", "true");
-            SettingsKeys.Add("UsePokemonToNotTransferList", "true");
-            SettingsKeys.Add("UsePokemonToEvolveList", "true");
+            SettingsKeys.Add("UseCSVExport", "false");
+            SettingsKeys.Add("CSVExportInMinutes", "15"); //In GUI Einbauen
 
-            SettingsKeys.Add("CatchPokemon", "true");
+            SettingsKeys.Add("CatchMapPokemon", "true");
             SettingsKeys.Add("CatchIncensePokemon", "false");
             SettingsKeys.Add("CatchLuredPokemon", "false");
+            SettingsKeys.Add("UsePokemonToNotCatchList", "false");
+            SettingsKeys.Add("PokemonToNotCatchList", "");
 
             SettingsKeys.Add("EvolvePokemon", "true");
-            SettingsKeys.Add("EvolveOnlyPokemonAboveIV", "false");
-            SettingsKeys.Add("EvolveOnlyPokemonAboveIVValue", "95");
-            SettingsKeys.Add("EvolveKeepCandiesValue", "200");
+            SettingsKeys.Add("EvolveOnlyPokemonAboveIV", "false"); //In GUI Einbauen
+            SettingsKeys.Add("EvolveOnlyPokemonAboveIVValue", "95"); //In GUI Einbauen
+            SettingsKeys.Add("EvolveKeepCandiesValue", "200"); //In GUI Einbauen
+            SettingsKeys.Add("UsePokemonToEvolveList", "true");
+            SettingsKeys.Add("PokemonToEvolveList", "Zubat,Pidgey,Rattata");
 
             SettingsKeys.Add("TransferPokemon", "true");
-            SettingsKeys.Add("NotTransferPokemonsThatCanEvolve", "false");
-            SettingsKeys.Add("UseTransferPokemonKeepAllAboveCP", "true");
-            SettingsKeys.Add("TransferPokemonKeepAllAboveCPValue", "2000");
-            SettingsKeys.Add("UseTransferPokemonKeepAllAboveIV", "true");
-            SettingsKeys.Add("TransferPokemonKeepAllAboveIVValue", "95");
-            SettingsKeys.Add("TransferPokemonKeepAmountHighestCP", "1");
-            SettingsKeys.Add("TransferPokemonKeepAmountHighestIV", "1");
+            SettingsKeys.Add("NotTransferPokemonsThatCanEvolve", "false"); //In GUI Einbauen
+            SettingsKeys.Add("UseTransferPokemonKeepAllAboveCP", "true"); //In GUI Einbauen
+            SettingsKeys.Add("TransferPokemonKeepAllAboveCPValue", "2000"); //In GUI Einbauen
+            SettingsKeys.Add("UseTransferPokemonKeepAllAboveIV", "true"); //In GUI Einbauen
+            SettingsKeys.Add("TransferPokemonKeepAllAboveIVValue", "95"); //In GUI Einbauen
+            SettingsKeys.Add("TransferPokemonKeepAmountHighestCP", "1"); //In GUI Einbauen
+            SettingsKeys.Add("TransferPokemonKeepAmountHighestIV", "1"); //In GUI Einbauen
+            SettingsKeys.Add("UsePokemonToNotTransferList", "true");
+            SettingsKeys.Add("PokemonToNotTransferList", "Dragonite,Charizard,Zapdos,Snorlax,Alakazam,Mew,Mewtwo");
 
-            SettingsKeys.Add("UseLuckyEggs", "true");
-            SettingsKeys.Add("HatchEggs", "true");
-            SettingsKeys.Add("UseOnlyBasicIncubator", "true");
+            SettingsKeys.Add("UseLuckyEggs", "true"); //In GUI Einbauen
+            SettingsKeys.Add("HatchEggs", "true"); //In GUI Einbauen
+            SettingsKeys.Add("UseOnlyBasicIncubator", "true"); //In GUI Einbauen
 
-            SettingsKeys.Add("PrioritizeIVOverCP", "true");
-            SettingsKeys.Add("ExportPokemonToCsvEveryMinutes", "15");
+            SettingsKeys.Add("PrioritizeIVOverCP", "true"); //In GUI Einbauen
+            SettingsKeys.Add("UseHumanizer", "true"); //In GUI Einbauen
+
+            SettingsKeys.Add("DeviceType", "Random");
+            SettingsKeys.Add("DevicePackageName", "");
+            SettingsKeys.Add("DeviceId", "8525f5d8201f78b5");
+            SettingsKeys.Add("AndroidBoardName", "msm8996");
+            SettingsKeys.Add("AndroidBootloader", "1.0.0.0000");
+            SettingsKeys.Add("DeviceBrand", "HTC");
+            SettingsKeys.Add("DeviceModel", "HTC 10");
+            SettingsKeys.Add("DeviceModelIdentifier", "pmewl_00531");
+            SettingsKeys.Add("DeviceModelBoot", "qcom");
+            SettingsKeys.Add("HardwareManufacturer", "HTC");
+            SettingsKeys.Add("HardwareModel", "HTC 10");
+            SettingsKeys.Add("FirmwareBrand", "pmewl_00531");
+            SettingsKeys.Add("FirmwareTags", "release - keys");
+            SettingsKeys.Add("FirmwareType", "user");
+            SettingsKeys.Add("FirmwareFingerprint", "htc/pmewl_00531/htc_pmewl:6.0.1/MMB29M/770927.1:user/release-keys");
+
+            SettingsKeys.Add("LogOut_Runtime", "false");
+            SettingsKeys.Add("LogOut_Runtime_Value", "300");
+            SettingsKeys.Add("LogOut_LevelReached", "false");
+            SettingsKeys.Add("LogOut_LevelReached_Value", "1");
+            SettingsKeys.Add("LogOut_PokemonCaught", "false");
+            SettingsKeys.Add("LogOut_PokemonCaught_Value", "750");
+            SettingsKeys.Add("LogOut_PokestopsVisit", "false");
+            SettingsKeys.Add("LogOut_PokestopsVisit_Value", "1500");
+
             SettingsKeys.Add("DebugMode", "false");
-            SettingsKeys.Add("DevicePackageName", "random");
-            SettingsKeys.Add("UseHumanizer", "true");
 
             foreach (var pair in SettingsKeys)
             {

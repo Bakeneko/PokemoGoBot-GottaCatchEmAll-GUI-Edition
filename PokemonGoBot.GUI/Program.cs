@@ -1,10 +1,12 @@
 ﻿using System;
-using System.IO;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
-using PokemonGoBot.GUI.GUI;
+using PokemonGoBot.GUI;
 using PokemonGoBot.GUI.Settings;
+using PokemonGoBot.Logging;
 
-namespace PokemonGoBot.GUI
+namespace PokemonGoBot
 {
     static class Program
     {
@@ -14,11 +16,18 @@ namespace PokemonGoBot.GUI
         [STAThread]
         static void Main(string[] args)
         {
+            var culture = CultureInfo.CreateSpecificCulture("en-US");
+
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+
             BasicSettings.CheckAndUpdateFile();
+            Logger.SetLogger();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Gui());
+
         }
     }
 }

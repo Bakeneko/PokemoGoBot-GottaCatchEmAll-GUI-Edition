@@ -7,13 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using PokemonGoBot.Logic.Logging;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using RocketAPI;
 using RocketAPI.Enums;
 using System.Configuration;
+using System.Globalization;
 using System.Windows.Forms;
+using PokemonGoBot.Logging;
 
 #endregion
 
@@ -28,236 +29,242 @@ namespace PokemonGoBot.GUI.Settings
 
         public AuthType AuthType
         {
-            get { return (AuthType)Enum.Parse(typeof(AuthType), ConfigurationManager.AppSettings["AuthType"], true); }
-            set { ConfigurationManager.AppSettings["AuthType"] = value.ToString(); }
+            get { return (AuthType)Enum.Parse(typeof(AuthType), ConfigurationManager.AppSettings["AuthType"], true); } set { ConfigurationManager.AppSettings["AuthType"] = value.ToString(); }
         }
-
         public string UserNameOrEmail
         {
-            get { return ConfigurationManager.AppSettings["UserNameOrEmail"]; }
-            set { ConfigurationManager.AppSettings["UserNameOrEmail"] = value; }
+            get { return ConfigurationManager.AppSettings["UserNameOrEmail"]; } set { ConfigurationManager.AppSettings["UserNameOrEmail"] = value; }
         }
-
         public string UserPassword
         {
-            get { return ConfigurationManager.AppSettings["UserPassword"]; }
-            set { ConfigurationManager.AppSettings["UserPassword"] = value; }
+            get { return ConfigurationManager.AppSettings["UserPassword"]; } set { ConfigurationManager.AppSettings["UserPassword"] = value; }
         }
 
         public double DefaultLatitude
         {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLatitude"]); }
-            set { ConfigurationManager.AppSettings["DefaultLatitude"] = value.ToString(); }
+            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLatitude"]); } set { ConfigurationManager.AppSettings["DefaultLatitude"] = value.ToString(); }
         }
-
         public double DefaultLongitude
         {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLongitude"]); }
-            set { ConfigurationManager.AppSettings["DefaultLongitude"] = value.ToString(); }
+            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLongitude"]); } set { ConfigurationManager.AppSettings["DefaultLongitude"] = value.ToString(); }
         }
-
         public double DefaultAltitude
         {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultAltitude"]); }
-            set { ConfigurationManager.AppSettings["DefaultAltitude"] = value.ToString(); }
+            get { return Convert.ToDouble(ConfigurationManager.AppSettings["DefaultAltitude"]); } set { ConfigurationManager.AppSettings["DefaultAltitude"] = value.ToString(); }
         }
 
         public string MovementBy
         {
-            get { return ConfigurationManager.AppSettings["MovementBy"]; }
-            set { ConfigurationManager.AppSettings["MovementBy"] = value; }
+            get { return ConfigurationManager.AppSettings["MovementBy"]; } set { ConfigurationManager.AppSettings["MovementBy"] = value; }
         }
-
         public double WalkingSpeedInKilometerPerHour
         {
-            get { return Convert.ToDouble(ConfigurationManager.AppSettings["WalkingSpeedInKilometerPerHour"]); }
-            set { ConfigurationManager.AppSettings["WalkingSpeedInKilometerPerHour"] = value.ToString(); }
+            get { return Convert.ToDouble(ConfigurationManager.AppSettings["WalkingSpeedInKilometerPerHour"]); } set { ConfigurationManager.AppSettings["WalkingSpeedInKilometerPerHour"] = value.ToString(); }
         }
-
         public int MaxTravelDistanceInMeters
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["MaxTravelDistanceInMeters"]); }
-            set { ConfigurationManager.AppSettings["MaxTravelDistanceInMeters"] = value.ToString(); }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["MaxTravelDistanceInMeters"]); } set { ConfigurationManager.AppSettings["MaxTravelDistanceInMeters"] = value.ToString(); }
         }
 
         public string GPXFile
         {
-            get { return ConfigurationManager.AppSettings["GPXFile"]; }
-            set { ConfigurationManager.AppSettings["GPXFile"] = value; }
+            get { return ConfigurationManager.AppSettings["GPXFile"]; } set { ConfigurationManager.AppSettings["GPXFile"] = value; }
         }
-
         public bool GPXIgnorePokestops
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["GPXIgnorePokestops"]); }
-            set { ConfigurationManager.AppSettings["GPXIgnorePokestops"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["GPXIgnorePokestops"]); } set { ConfigurationManager.AppSettings["GPXIgnorePokestops"] = value.ToString(); }
         }
 
         public bool UseProxy
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseProxy"]); }
-            set { ConfigurationManager.AppSettings["UseProxy"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseProxy"]); } set { ConfigurationManager.AppSettings["UseProxy"] = value.ToString(); }
         }
-
-        public int ProxyHost
+        public string ProxyHost
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ProxyHost"]); }
-            set { ConfigurationManager.AppSettings["ProxyHost"] = value.ToString(); }
+            get { return ConfigurationManager.AppSettings["ProxyHost"]; } set { ConfigurationManager.AppSettings["ProxyHost"] = value; }
         }
-
         public int ProxyPort
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ProxyPort"]); }
-            set { ConfigurationManager.AppSettings["ProxyPort"] = value.ToString(); }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ProxyPort"]); } set { ConfigurationManager.AppSettings["ProxyPort"] = value.ToString(); }
         }
-
-        public bool ProxyUsername
+        public string ProxyUsername
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["ProxyUsername"]); }
-            set { ConfigurationManager.AppSettings["ProxyUsername"] = value.ToString(); }
+            get { return ConfigurationManager.AppSettings["ProxyUsername"]; } set { ConfigurationManager.AppSettings["ProxyUsername"] = value; }
         }
-
-        public bool ProxyPassword
+        public string ProxyPassword
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["ProxyPassword"]); }
-            set { ConfigurationManager.AppSettings["ProxyPassword"] = value.ToString(); }
+            get { return ConfigurationManager.AppSettings["ProxyPassword"]; } set { ConfigurationManager.AppSettings["ProxyPassword"] = value; }
         }
 
-        public bool UsePokemonToNotCatchList
+        public bool UseCSVExport
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToNotCatchList"]); }
-            set { ConfigurationManager.AppSettings["UsePokemonToNotCatchList"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseCSVExport"]); } set { ConfigurationManager.AppSettings["UseCSVExport"] = value.ToString(); }
         }
-
-        public bool UsePokemonToNotTransferList
+        public int CSVExportInMinutes
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToNotTransferList"]); }
-            set { ConfigurationManager.AppSettings["UsePokemonToNotTransferList"] = value.ToString(); }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["CSVExportInMinutes"]); } set { ConfigurationManager.AppSettings["CSVExportInMinutes"] = value.ToString(); }
         }
 
-        public bool UsePokemonToEvolveList
+        public bool CatchMapPokemon
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToEvolveList"]); }
-            set { ConfigurationManager.AppSettings["UsePokemonToEvolveList"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["CatchMapPokemon"]); } set { ConfigurationManager.AppSettings["CatchMapPokemon"] = value.ToString(); }
         }
-
-        public bool CatchPokemon
-        {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["CatchPokemon"]); }
-            set { ConfigurationManager.AppSettings["CatchPokemon"] = value.ToString(); }
-        }
-
         public bool CatchIncensePokemon
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["CatchIncensePokemon"]); }
-            set { ConfigurationManager.AppSettings["CatchIncensePokemon"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["CatchIncensePokemon"]); } set { ConfigurationManager.AppSettings["CatchIncensePokemon"] = value.ToString(); }
         }
-
         public bool CatchLuredPokemon
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["CatchLuredPokemon"]); }
-            set { ConfigurationManager.AppSettings["CatchLuredPokemon"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["CatchLuredPokemon"]); } set { ConfigurationManager.AppSettings["CatchLuredPokemon"] = value.ToString(); }
         }
+        public bool UsePokemonToNotCatchList
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToNotCatchList"]); } set { ConfigurationManager.AppSettings["UsePokemonToNotCatchList"] = value.ToString(); }
+        }
+        //PokemonToNotCatchList als array noch einbauen
 
         public bool EvolvePokemon
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["EvolvePokemon"]); }
-            set { ConfigurationManager.AppSettings["EvolvePokemon"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["EvolvePokemon"]); } set { ConfigurationManager.AppSettings["EvolvePokemon"] = value.ToString(); }
         }
-
         public bool EvolveOnlyPokemonAboveIV
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIV"]); }
-            set { ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIV"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIV"]); } set { ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIV"] = value.ToString(); }
         }
-
         public float EvolveOnlyPokemonAboveIVValue
         {
-            get { return Convert.ToSingle(ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIVValue"]); }
-            set { ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIVValue"] = value.ToString(); }
+            get { return Convert.ToSingle(ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIVValue"]); } set { ConfigurationManager.AppSettings["EvolveOnlyPokemonAboveIVValue"] = value.ToString(); }
         }
-
         public int EvolveKeepCandiesValue
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["EvolveKeepCandiesValue"]); }
-            set { ConfigurationManager.AppSettings["EvolveKeepCandiesValue"] = value.ToString(); }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["EvolveKeepCandiesValue"]); } set { ConfigurationManager.AppSettings["EvolveKeepCandiesValue"] = value.ToString(); }
         }
+        public bool UsePokemonToEvolveList
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToEvolveList"]); } set { ConfigurationManager.AppSettings["UsePokemonToEvolveList"] = value.ToString(); }
+        }
+        //PokemonToEvolveList als array noch einbauen
 
         public bool TransferPokemon
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["TransferPokemon"]); }
-            set { ConfigurationManager.AppSettings["TransferPokemon"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["TransferPokemon"]); } set { ConfigurationManager.AppSettings["TransferPokemon"] = value.ToString(); }
         }
-
         public bool NotTransferPokemonsThatCanEvolve
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["NotTransferPokemonsThatCanEvolve"]); }
-            set { ConfigurationManager.AppSettings["NotTransferPokemonsThatCanEvolve"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["NotTransferPokemonsThatCanEvolve"]); } set { ConfigurationManager.AppSettings["NotTransferPokemonsThatCanEvolve"] = value.ToString(); }
         }
-
         public bool UseTransferPokemonKeepAllAboveCP
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveCP"]); }
-            set { ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveCP"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveCP"]); } set { ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveCP"] = value.ToString(); }
         }
-
         public int TransferPokemonKeepAllAboveCPValue
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveCPValue"]); }
-            set { ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveCPValue"] = value.ToString(); }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveCPValue"]); } set { ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveCPValue"] = value.ToString(); }
         }
-
         public bool UseTransferPokemonKeepAllAboveIV
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveIV"]); }
-            set { ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveIV"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveIV"]); } set { ConfigurationManager.AppSettings["UseTransferPokemonKeepAllAboveIV"] = value.ToString(); }
         }
-
         public float TransferPokemonKeepAllAboveIVValue
         {
-            get { return Convert.ToSingle(ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveIVValue"]); }
-            set { ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveIVValue"] = value.ToString(); }
+            get { return Convert.ToSingle(ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveIVValue"]); } set { ConfigurationManager.AppSettings["TransferPokemonKeepAllAboveIVValue"] = value.ToString(); }
         }
-
         public int TransferPokemonKeepAmountHighestCP
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestCP"]); }
-            set { ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestCP"] = value.ToString(); }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestCP"]); } set { ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestCP"] = value.ToString(); }
         }
-
         public int TransferPokemonKeepAmountHighestIV
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestIV"]); }
-            set { ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestIV"] = value.ToString(); }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestIV"]); } set { ConfigurationManager.AppSettings["TransferPokemonKeepAmountHighestIV"] = value.ToString(); }
         }
+        public bool UsePokemonToNotTransferList
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToNotTransferList"]); } set { ConfigurationManager.AppSettings["UsePokemonToNotTransferList"] = value.ToString(); }
+        }
+        //PokemonToTransferList als array noch einbauen
 
         public bool UseLuckyEggs
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseLuckyEggs"]); }
-            set { ConfigurationManager.AppSettings["UseLuckyEggs"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseLuckyEggs"]); } set { ConfigurationManager.AppSettings["UseLuckyEggs"] = value.ToString(); }
         }
 
         public bool HatchEggs
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["HatchEggs"]); }
-            set { ConfigurationManager.AppSettings["HatchEggs"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["HatchEggs"]); } set { ConfigurationManager.AppSettings["HatchEggs"] = value.ToString(); }
         }
-
         public bool UseOnlyBasicIncubator
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseOnlyBasicIncubator"]); }
-            set { ConfigurationManager.AppSettings["UseOnlyBasicIncubator"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseOnlyBasicIncubator"]); } set { ConfigurationManager.AppSettings["UseOnlyBasicIncubator"] = value.ToString(); }
         }
 
         public bool PrioritizeIVOverCP
         {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["PrioritizeIVOverCP"]); }
-            set { ConfigurationManager.AppSettings["PrioritizeIVOverCP"] = value.ToString(); }
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["PrioritizeIVOverCP"]); } set { ConfigurationManager.AppSettings["PrioritizeIVOverCP"] = value.ToString(); }
+        }
+        public bool UseHumanizer
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseHumanizer"]); } set { ConfigurationManager.AppSettings["UseHumanizer"] = value.ToString(); }
         }
 
-        public int ExportPokemonToCsvEveryMinutes
+        public string DeviceType
         {
-            get { return Convert.ToInt32(ConfigurationManager.AppSettings["ExportPokemonToCsvEveryMinutes"]); }
-            set { ConfigurationManager.AppSettings["ExportPokemonToCsvEveryMinutes"] = value.ToString(); }
+            get { return ConfigurationManager.AppSettings["DeviceType"]; } set { ConfigurationManager.AppSettings["DeviceType"] = value; }
+        }
+        public string DevicePackageName
+        {
+            get { return ConfigurationManager.AppSettings["DevicePackageName"]; } set { ConfigurationManager.AppSettings["DevicePackageName"] = value; }
+        }
+        public string DeviceId
+        {
+            get { return ConfigurationManager.AppSettings["DeviceId"]; } set { ConfigurationManager.AppSettings["DeviceId"] = value; }
+        }
+        public string AndroidBoardName
+        {
+            get { return ConfigurationManager.AppSettings["AndroidBoardName"]; } set { ConfigurationManager.AppSettings["DeviceId"] = value; }
+        }
+        public string AndroidBootloader
+        {
+            get { return ConfigurationManager.AppSettings["AndroidBootloader"]; } set { ConfigurationManager.AppSettings["AndroidBootloader"] = value; }
+        }
+        public string DeviceBrand
+        {
+            get { return ConfigurationManager.AppSettings["DeviceBrand"]; } set { ConfigurationManager.AppSettings["DeviceBrand"] = value; }
+        }
+        public string DeviceModel
+        {
+            get { return ConfigurationManager.AppSettings["DeviceModel"]; } set { ConfigurationManager.AppSettings["DeviceModel"] = value; }
+        }
+        public string DeviceModelIdentifier
+        {
+            get { return ConfigurationManager.AppSettings["DeviceModelIdentifier"]; } set { ConfigurationManager.AppSettings["DeviceModelIdentifier"] = value; }
+        }
+        public string DeviceModelBoot
+        {
+            get { return ConfigurationManager.AppSettings["DeviceModelBoot"]; } set { ConfigurationManager.AppSettings["DeviceModelBoot"] = value; }
+        }
+        public string HardwareManufacturer
+        {
+            get { return ConfigurationManager.AppSettings["HardwareManufacturer"]; } set { ConfigurationManager.AppSettings["HardwareManufacturer"] = value; }
+        }
+        public string HardwareModel
+        {
+            get { return ConfigurationManager.AppSettings["HardwareModel"]; } set { ConfigurationManager.AppSettings["HardwareModel"] = value; }
+        }
+        public string FirmwareBrand
+        {
+            get { return ConfigurationManager.AppSettings["FirmwareBrand"]; } set { ConfigurationManager.AppSettings["FirmwareBrand"] = value; }
+        }
+        public string FirmwareTags
+        {
+            get { return ConfigurationManager.AppSettings["FirmwareTags"]; } set { ConfigurationManager.AppSettings["FirmwareTags"] = value; }
+        }
+        public string FirmwareType
+        {
+            get { return ConfigurationManager.AppSettings["FirmwareType"]; } set { ConfigurationManager.AppSettings["FirmwareType"] = value; }
+        }
+        public string FirmwareFingerprint
+        {
+            get { return ConfigurationManager.AppSettings["FirmwareFingerprint"]; } set { ConfigurationManager.AppSettings["FirmwareFingerprint"] = value; }
         }
 
         public bool DebugMode
@@ -265,43 +272,6 @@ namespace PokemonGoBot.GUI.Settings
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["DebugMode"]); }
             set { ConfigurationManager.AppSettings["DebugMode"] = value.ToString(); }
         }
-        public string DevicePackageName
-        {
-            get { return ConfigurationManager.AppSettings["DevicePackageName"]; }
-            set { ConfigurationManager.AppSettings["DevicePackageName"] = value; }
-        }
-        public bool UseHumanizer
-        {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseHumanizer"]); }
-            set { ConfigurationManager.AppSettings["UseHumanizer"] = value.ToString(); }
-        }
-
-        [XmlIgnore]
-        public string DeviceId = "8525f5d8201f78b5";
-        [XmlIgnore]
-        public string AndroidBoardName = "msm8996";
-        [XmlIgnore]
-        public string AndroidBootloader = "1.0.0.0000";
-        [XmlIgnore]
-        public string DeviceBrand = "HTC";
-        [XmlIgnore]
-        public string DeviceModel = "HTC 10";
-        [XmlIgnore]
-        public string DeviceModelIdentifier = "pmewl_00531";
-        [XmlIgnore]
-        public string DeviceModelBoot = "qcom";
-        [XmlIgnore]
-        public string HardwareManufacturer = "HTC";
-        [XmlIgnore]
-        public string HardwareModel = "HTC 10";
-        [XmlIgnore]
-        public string FirmwareBrand = "pmewl_00531";
-        [XmlIgnore]
-        public string FirmwareTags = "release - keys";
-        [XmlIgnore]
-        public string FirmwareType = "user";
-        [XmlIgnore]
-        public string FirmwareFingerprint = "htc/pmewl_00531/htc_pmewl:6.0.1/MMB29M/770927.1:user/release-keys";
 
         [XmlIgnore]
         private ICollection<PokemonId> _pokemonsToEvolve;

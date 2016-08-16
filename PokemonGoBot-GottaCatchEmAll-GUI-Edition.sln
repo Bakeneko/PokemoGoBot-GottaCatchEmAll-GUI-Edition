@@ -7,9 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POGOProtos", "POGOProtos\PO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketAPI", "RocketAPI\RocketAPI.csproj", "{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoBot.Logic", "PokemonGoBot.Logic\PokemonGoBot.Logic.csproj", "{0739E40D-C589-4AEB-93E5-EE8CD6773C60}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoBot.GUI", "PokemonGoBot.GUI\PokemonGoBot.GUI.csproj", "{227822E1-A3E5-4A45-9FD2-9A2528830343}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoBot", "PokemonGoBot.GUI\PokemonGoBot.csproj", "{227822E1-A3E5-4A45-9FD2-9A2528830343}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +33,6 @@ Global
 		{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}.Release|x86.ActiveCfg = Release|Any CPU
 		{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}.Release|x86.Build.0 = Release|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Debug|x86.Build.0 = Debug|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Release|x86.ActiveCfg = Release|Any CPU
-		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Release|x86.Build.0 = Release|Any CPU
 		{227822E1-A3E5-4A45-9FD2-9A2528830343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{227822E1-A3E5-4A45-9FD2-9A2528830343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{227822E1-A3E5-4A45-9FD2-9A2528830343}.Debug|x86.ActiveCfg = Debug|Any CPU
