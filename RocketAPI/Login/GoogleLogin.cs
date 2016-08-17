@@ -6,20 +6,20 @@ namespace RocketAPI.Login
 {
     public class GoogleLogin : ILoginType
     {
-        private readonly string password;
-        private readonly string email;
+        private readonly string _password;
+        private readonly string _email;
 
         public GoogleLogin(string email, string password)
         {
-            this.email = email;
-            this.password = password;
+            this._email = email;
+            this._password = password;
         }
 
 #pragma warning disable 1998
         public async Task<string> GetAccessToken()
 #pragma warning restore 1998
         {
-            var client = new GPSOAuthClient(email, password);
+            var client = new GPSOAuthClient(_email, _password);
             var response = client.PerformMasterLogin();
 
             if (response.ContainsKey("Error"))

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using POGOProtos.Networking.Requests;
@@ -34,7 +35,7 @@ namespace RocketAPI.Rpc
             }
         }
 
-        public async Task DoLogin()
+        public async Task DoLogin(CancellationToken cancellationToken)
         {
             _client.AuthToken = await login.GetAccessToken().ConfigureAwait(false);
             await SetServer().ConfigureAwait(false);

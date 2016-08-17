@@ -130,7 +130,6 @@ namespace PokemonGoBot.Settings
                 _pokemonToNotCatch = _pokemonToNotCatch ?? LoadPokemonList("PokemonToNotCatchList");
                 return _pokemonToNotCatch;
             }
-            set { ConfigurationManager.AppSettings["PokemonToNotCatchList"] = value.ToString(); }
         }
 
         public bool EvolvePokemon
@@ -162,7 +161,6 @@ namespace PokemonGoBot.Settings
                 Logger.Write($"{_pokemonToEvolve}");
                 return _pokemonToEvolve;
             }
-            set { ConfigurationManager.AppSettings["PokemonToEvolveList"] = value.ToString(); }
         }
 
         public bool TransferPokemon
@@ -209,9 +207,7 @@ namespace PokemonGoBot.Settings
                 _pokemonToNotTransfer = _pokemonToNotTransfer ?? LoadPokemonList("PokemonToNotTransferList");
                 return _pokemonToNotTransfer;
             }
-            set { ConfigurationManager.AppSettings["PokemonToNotTransferList"] = value.ToString(); }
         }
-        //PokemonToTransferList als array noch einbauen
 
         public bool UseLuckyEggs
         {
@@ -402,7 +398,7 @@ namespace PokemonGoBot.Settings
             ICollection<PokemonId> result = new List<PokemonId>();
             var pokemonList = ConfigurationManager.AppSettings[$"{listname}"];
             var pokemomNames = pokemonList.Split(new[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string pokemomName in pokemomNames)
+            foreach (var pokemomName in pokemomNames)
             {
                 PokemonId pokemon;
                 if (Enum.TryParse(pokemomName, out pokemon))

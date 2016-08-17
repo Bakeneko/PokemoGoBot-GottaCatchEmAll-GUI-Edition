@@ -10,13 +10,13 @@ namespace RocketAPI.Login
 {
     class PtcLogin : ILoginType
     {
-        readonly string password;
-        readonly string username;
+        readonly string _password;
+        readonly string _username;
 
         public PtcLogin(string username, string password)
         {
-            this.username = username;
-            this.password = password;
+            this._username = username;
+            this._password = password;
         }
         public async Task<string> GetAccessToken()
         {
@@ -32,7 +32,7 @@ namespace RocketAPI.Login
                 var sessionData = await GetSessionCookie(tempHttpClient).ConfigureAwait(false);
 
                 //Login
-                var ticketId = await GetLoginTicket(username, password, tempHttpClient, sessionData).ConfigureAwait(false);
+                var ticketId = await GetLoginTicket(_username, _password, tempHttpClient, sessionData).ConfigureAwait(false);
 
                 //Get tokenvar
                 return await GetToken(tempHttpClient, ticketId).ConfigureAwait(false);

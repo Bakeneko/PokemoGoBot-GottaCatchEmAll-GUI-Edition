@@ -352,7 +352,6 @@ namespace PokemonGoBot.GUI
                 }
                 catch (OperationCanceledException)
                 {
-                    Settings.Settings.cancellationTokenSource.Cancel();
                     Logger.Write($"Bot stopped");
                     Button_Stop.Visible = false;
                     Button_Start.Visible = true;

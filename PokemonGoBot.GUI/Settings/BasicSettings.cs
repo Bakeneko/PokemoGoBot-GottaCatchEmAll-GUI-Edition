@@ -37,7 +37,7 @@ namespace PokemonGoBot.Settings
             SettingsKeys.Add("CatchIncensePokemon", "false");
             SettingsKeys.Add("CatchLuredPokemon", "false");
             SettingsKeys.Add("UsePokemonToNotCatchList", "false");
-            SettingsKeys.Add("PokemonToNotCatchList", "");
+            SettingsKeys.Add("PokemonToNotCatchList", "Zubat,Pidgey,Rattata");
 
             SettingsKeys.Add("EvolvePokemon", "true");
             SettingsKeys.Add("EvolveOnlyPokemonAboveIV", "false"); //In GUI Einbauen

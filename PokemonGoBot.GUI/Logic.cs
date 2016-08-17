@@ -48,22 +48,22 @@ namespace PokemonGoBot
             {
                 await Login(cancellationToken);
 
-                await PostLoginExecute();
+                await PostLoginExecute(cancellationToken);
 
                 await Task.Delay(10000, cancellationToken);
                 Logger.Write("Debug Info: Execute canceld?");
             }
         }
 
-        public async Task RefreshTokens()
+        public async Task RefreshTokens(CancellationToken cancellationToken)
         {
             switch (_clientSettings.AuthType)
             {
                 case AuthType.Ptc:
-                    await _client.Login.DoLogin();
+                    await _client.Login.DoLogin(cancellationToken);
                     break;
                 case AuthType.Google:
-                    await _client.Login.DoLogin();
+                    await _client.Login.DoLogin(cancellationToken);
                     break;
             }
         }
@@ -81,22 +81,15 @@ namespace PokemonGoBot
             if (Math.Abs(_clientSettings.DefaultLatitude) <= 0 || Math.Abs(_clientSettings.DefaultLongitude) <= 0)
             {
                 Logger.Write($"Please change first Latitude and/or Longitude because currently your using default values!", LogLevel.Error);
-                for (int i = 3; i > 0; i--)
-                {
-                    Logger.Write($"Bot will close in {i * 5} seconds!", LogLevel.Warning);
-                    await Task.Delay(5000, cancellationToken);
-                    cancellationToken.ThrowIfCancellationRequested();
-                }
+                Settings.Settings.cancellationTokenSource.Cancel();
+                cancellationToken.ThrowIfCancellationRequested();
             }
             else
             {
                 Logger.Write($"Make sure Lat & Lng is right. Exit Program if not! Lat: {_client.CurrentLatitude} Lng: {_client.CurrentLongitude}", LogLevel.Warning);
-                for (int i = 3; i > 0; i--)
-                {
-                    Logger.Write($"Bot will continue in {i * 5} seconds!", LogLevel.Warning);
-                    await Task.Delay(5000, cancellationToken);
-                    cancellationToken.ThrowIfCancellationRequested();
-                }
+                Logger.Write($"Bot will continue in 5 seconds!", LogLevel.Warning);
+                await Task.Delay(5000, cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -107,20 +100,21 @@ namespace PokemonGoBot
             try
             {
                 if (_clientSettings.AuthType == AuthType.Ptc || _clientSettings.AuthType == AuthType.Google)
-                    await _client.Login.DoLogin();
+                    await _client.Login.DoLogin(cancellationToken);
                 else
                 {
                     Logger.Write("Wrong AuthType");
-                    Settings.Settings.cancellationTokenSource.Cancel();
-                    cancellationToken.ThrowIfCancellationRequested();
+                    Settings.Settings.cancellationTokenSource.Cancel();  
                 }
+                cancellationToken.ThrowIfCancellationRequested();
             }
             catch (Exception ex) when (ex is PtcOfflineException || ex is AccessTokenExpiredException)
             {
                 Logger.Write("PTC Servers are probably down OR your credentials are wrong. Try google",
                     LogLevel.Error);
                 Logger.Write("Trying again in 60 seconds...");
-                Thread.Sleep(60000);
+                await Task.Delay(60000, cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
                 await Execute(cancellationToken);
             }
             catch (LoginFailedException)
@@ -140,11 +134,11 @@ namespace PokemonGoBot
                 if (e.Message.Contains("NeedsBrowser"))
                 {
                     Logger.Write(
-                        "As you have Google Two Factor Auth enabled, you will need to insert an App Specific Password into the UserSettings.",
+                        "As you have Google Two Factor Auth enabled, you will need to insert an App Specific Password into the Settings.",
                         LogLevel.Error);
                     Logger.Write("Opening Google App-Passwords. Please make a new App Password (use Other as Device)",
                         LogLevel.Error);
-                    await Task.Delay(7000);
+                    await Task.Delay(7000, cancellationToken);
                     try
                     {
                         Process.Start("https://security.google.com/settings/security/apppasswords");
@@ -175,13 +169,7 @@ namespace PokemonGoBot
 
             try
             {
-                var playerStats = (await Inventory.GetPlayerStats()).FirstOrDefault();
-                if (playerStats != null)
-                {
-                    Logger.Write(
-                        "Player profile successfully received ;-)",
-                        LogLevel.Warning);
-                }
+                await Inventory.GetPlayerStats();
             }
             catch (Exception)
             {
@@ -194,8 +182,29 @@ namespace PokemonGoBot
             Logger.Write("Client logged in", LogLevel.Info);
         }
 
-        public async Task PrintPlayerInfos()
+        public async Task PostLoginExecute(CancellationToken cancellationToken)
         {
+            if (!_isInitialized) await PrintPlayerInfos(cancellationToken);
+            _isInitialized = true;
+
+            while (true)
+            {
+                if (_clientSettings.MovementBy == "UseGPXPathing")
+                    await FarmPokestopsGPXTask.Execute();
+                else
+                    await FarmPokestopsTask.Execute();
+
+                await RefreshTokens(cancellationToken);
+
+                await Task.Delay(10000);
+                Logger.Write("Debug Info: PostLoginExecute canceld?");
+            }
+        }
+
+        public async Task PrintPlayerInfos(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
             await Inventory.GetCachedInventory();
             _playerProfile = await _client.Player.GetPlayer();
             BotStats.UpdateConsoleTitle();
@@ -223,7 +232,7 @@ namespace PokemonGoBot
             await DisplayHighests();
             Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
 
-            var pokemonsToNotTransfer = _clientSettings.PokemonToNotTransfer;
+            var pokemonToNotTransfer = _clientSettings.PokemonToNotTransfer;
             var pokemonsToNotCatch = _clientSettings.PokemonToNotCatch;
             var pokemonsToEvolve = _clientSettings.PokemonToEvolve;
 
@@ -234,25 +243,6 @@ namespace PokemonGoBot
             if (_client.Settings.TransferPokemon) await TransferPokemonTask.Execute();
             if (_client.Settings.UseCSVExport) await ExportPokemonToCsv.Execute(_playerProfile.PlayerData);
             if (_clientSettings.HatchEggs) await HatchEggsTask.Execute();
-        }
-
-        public async Task PostLoginExecute()
-        {
-            if (!_isInitialized) await PrintPlayerInfos();
-            _isInitialized = true;
-
-            while (true)
-            {
-                if (_clientSettings.MovementBy == "UseGPXPathing")
-                    await FarmPokestopsGPXTask.Execute();
-                else
-                    await FarmPokestopsTask.Execute();
-
-                await RefreshTokens();
-
-                await Task.Delay(10000);
-                Logger.Write("Debug Info: PostLoginExecute canceld?");
-            }
         }
 
         private async Task DisplayHighests()
