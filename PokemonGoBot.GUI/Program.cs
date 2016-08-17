@@ -3,8 +3,8 @@ using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using PokemonGoBot.GUI;
-using PokemonGoBot.GUI.Settings;
 using PokemonGoBot.Logging;
+using PokemonGoBot.Settings;
 
 namespace PokemonGoBot
 {

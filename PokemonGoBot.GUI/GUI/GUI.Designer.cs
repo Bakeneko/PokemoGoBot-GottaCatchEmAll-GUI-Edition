@@ -31,6 +31,7 @@ namespace PokemonGoBot.GUI
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gui));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.nsTheme1 = new PokemonGoBot.GUI.GUI.Theme.NSTheme();
             this.Button_Stop = new PokemonGoBot.GUI.GUI.Theme.NSButton();
@@ -105,7 +106,6 @@ namespace PokemonGoBot.GUI
             this.Tab_Settings_Page_CatchSettings = new System.Windows.Forms.TabPage();
             this.nsGroupBox5 = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
             this.nsGroupBox4 = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
-            this.nsOnOffBox4 = new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox();
             this.GroupBox_ToNotCatchList = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
             this.Button_CatchListUnselectAll = new PokemonGoBot.GUI.GUI.Theme.NSButton();
             this.Button_CatchListSelectAll = new PokemonGoBot.GUI.GUI.Theme.NSButton();
@@ -163,6 +163,7 @@ namespace PokemonGoBot.GUI
             this.OnOff_LogOut_LevelReached = new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox();
             this.Label_LogOut_LevelReached = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
             this.GroupBox_DeviceSettings = new PokemonGoBot.GUI.GUI.Theme.NSGroupBox();
+            this.Button_NewDeviceId = new PokemonGoBot.GUI.GUI.Theme.NSButton();
             this.Label_DeviceBrand = new PokemonGoBot.GUI.GUI.Theme.NSLabel();
             this.TextBox_DeviceBrand = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
             this.TextBox_FirmwareFingerprint = new PokemonGoBot.GUI.GUI.Theme.NSTextBox();
@@ -212,7 +213,6 @@ namespace PokemonGoBot.GUI
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_WalkingSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_MaxTravelDistance)).BeginInit();
             this.Tab_Settings_Page_CatchSettings.SuspendLayout();
-            this.nsGroupBox4.SuspendLayout();
             this.GroupBox_ToNotCatchList.SuspendLayout();
             this.GroupBox_CatchPokemon.SuspendLayout();
             this.Tab_Settings_Page_EvolveSettings.SuspendLayout();
@@ -256,7 +256,7 @@ namespace PokemonGoBot.GUI
             this.nsTheme1.Customization = "";
             this.nsTheme1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nsTheme1.Font = new System.Drawing.Font("Verdana", 8F);
-            this.nsTheme1.Image = null;
+            this.nsTheme1.Image = ((System.Drawing.Image)(resources.GetObject("nsTheme1.Image")));
             this.nsTheme1.Location = new System.Drawing.Point(0, 0);
             this.nsTheme1.Movable = true;
             this.nsTheme1.Name = "nsTheme1";
@@ -397,7 +397,7 @@ namespace PokemonGoBot.GUI
             gmap.Size = new System.Drawing.Size(356, 230);
             gmap.TabIndex = 2;
             gmap.Zoom = 16D;
-            gmap.Load += new System.EventHandler(this.gmap_Load);
+            gmap.Load += new System.EventHandler(gmap_Load);
             // 
             // txtConsole
             // 
@@ -1211,7 +1211,6 @@ namespace PokemonGoBot.GUI
             // 
             // nsGroupBox4
             // 
-            this.nsGroupBox4.Controls.Add(this.nsOnOffBox4);
             this.nsGroupBox4.DrawSeperator = false;
             this.nsGroupBox4.Location = new System.Drawing.Point(212, 6);
             this.nsGroupBox4.Name = "nsGroupBox4";
@@ -1220,17 +1219,6 @@ namespace PokemonGoBot.GUI
             this.nsGroupBox4.TabIndex = 3;
             this.nsGroupBox4.Text = "nsGroupBox4";
             this.nsGroupBox4.Title = "Use Berries";
-            // 
-            // nsOnOffBox4
-            // 
-            this.nsOnOffBox4.Checked = false;
-            this.nsOnOffBox4.Location = new System.Drawing.Point(133, 3);
-            this.nsOnOffBox4.MaximumSize = new System.Drawing.Size(56, 24);
-            this.nsOnOffBox4.MinimumSize = new System.Drawing.Size(56, 24);
-            this.nsOnOffBox4.Name = "nsOnOffBox4";
-            this.nsOnOffBox4.Size = new System.Drawing.Size(56, 24);
-            this.nsOnOffBox4.TabIndex = 0;
-            this.nsOnOffBox4.Text = "nsOnOffBox4";
             // 
             // GroupBox_ToNotCatchList
             // 
@@ -2414,6 +2402,7 @@ namespace PokemonGoBot.GUI
             // 
             // GroupBox_DeviceSettings
             // 
+            this.GroupBox_DeviceSettings.Controls.Add(this.Button_NewDeviceId);
             this.GroupBox_DeviceSettings.Controls.Add(this.Label_DeviceBrand);
             this.GroupBox_DeviceSettings.Controls.Add(this.TextBox_DeviceBrand);
             this.GroupBox_DeviceSettings.Controls.Add(this.TextBox_FirmwareFingerprint);
@@ -2452,6 +2441,15 @@ namespace PokemonGoBot.GUI
             this.GroupBox_DeviceSettings.TabIndex = 0;
             this.GroupBox_DeviceSettings.Text = "GroupBox_DeviceSettings";
             this.GroupBox_DeviceSettings.Title = "Device Settings";
+            // 
+            // Button_NewDeviceId
+            // 
+            this.Button_NewDeviceId.Location = new System.Drawing.Point(85, 69);
+            this.Button_NewDeviceId.Name = "Button_NewDeviceId";
+            this.Button_NewDeviceId.Size = new System.Drawing.Size(38, 23);
+            this.Button_NewDeviceId.TabIndex = 36;
+            this.Button_NewDeviceId.Text = "New";
+            this.Button_NewDeviceId.Click += new System.EventHandler(this.Button_NewDeviceId_Click);
             // 
             // Label_DeviceBrand
             // 
@@ -2861,8 +2859,9 @@ namespace PokemonGoBot.GUI
             this.ClientSize = new System.Drawing.Size(900, 500);
             this.Controls.Add(this.nsTheme1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = global::PokemonGoBot.Properties.Resources.Icon;
             this.Name = "Gui";
-            this.Text = "Form1";
+            this.Text = "Pokemon GO Bot - Gotta Catch \'Em All - GUI Edition // Version: 2016.8.15.386";
             this.Load += new System.EventHandler(this.GUI_Load);
             this.nsTheme1.ResumeLayout(false);
             this.nsTheme1.PerformLayout();
@@ -2885,7 +2884,6 @@ namespace PokemonGoBot.GUI
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_WalkingSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumUpDown_MaxTravelDistance)).EndInit();
             this.Tab_Settings_Page_CatchSettings.ResumeLayout(false);
-            this.nsGroupBox4.ResumeLayout(false);
             this.GroupBox_ToNotCatchList.ResumeLayout(false);
             this.GroupBox_CatchPokemon.ResumeLayout(false);
             this.Tab_Settings_Page_EvolveSettings.ResumeLayout(false);
@@ -3022,7 +3020,6 @@ namespace PokemonGoBot.GUI
         private NSLabel nsLabel4;
         private NSOnOffBox nsOnOffBox2;
         private NSGroupBox nsGroupBox4;
-        private NSOnOffBox nsOnOffBox4;
         private NSGroupBox nsGroupBox5;
         private System.Windows.Forms.NumericUpDown NumUpDown_CSVExportInMinutes;
         private NSOnOffBox OnOff_UseCSVExport;
@@ -3074,6 +3071,7 @@ namespace PokemonGoBot.GUI
         private TextBox txtConsole;
         private NSButton Button_Start;
         private NSButton Button_Stop;
+        private NSButton Button_NewDeviceId;
         public static GMap.NET.WindowsForms.GMapControl gmap;
     }
 }

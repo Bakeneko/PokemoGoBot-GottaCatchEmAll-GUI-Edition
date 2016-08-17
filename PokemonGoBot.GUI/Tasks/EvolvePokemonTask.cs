@@ -13,7 +13,7 @@ namespace PokemonGoBot.Tasks
         public static async Task Execute()
         {
             await Inventory.GetCachedInventory(true);
-            var pokemonToEvolve = await Inventory.GetPokemonToEvolve(Logic._client.Settings.PrioritizeIVOverCP, Logic._client.Settings.PokemonsToEvolve);
+            var pokemonToEvolve = await Inventory.GetPokemonToEvolve(Logic._client.Settings.PrioritizeIVOverCP, Logic._client.Settings.PokemonToEvolve);
             if (pokemonToEvolve == null || !pokemonToEvolve.Any())
                 return;
 

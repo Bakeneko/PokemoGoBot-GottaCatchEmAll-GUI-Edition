@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PokemonGoBot.GUI.Settings
+namespace PokemonGoBot.Settings
 {
     internal class BasicSettings
     {
@@ -84,14 +80,14 @@ namespace PokemonGoBot.GUI.Settings
             SettingsKeys.Add("FirmwareType", "user");
             SettingsKeys.Add("FirmwareFingerprint", "htc/pmewl_00531/htc_pmewl:6.0.1/MMB29M/770927.1:user/release-keys");
 
-            SettingsKeys.Add("LogOut_Runtime", "false");
-            SettingsKeys.Add("LogOut_Runtime_Value", "300");
-            SettingsKeys.Add("LogOut_LevelReached", "false");
-            SettingsKeys.Add("LogOut_LevelReached_Value", "1");
-            SettingsKeys.Add("LogOut_PokemonCaught", "false");
-            SettingsKeys.Add("LogOut_PokemonCaught_Value", "750");
-            SettingsKeys.Add("LogOut_PokestopsVisit", "false");
-            SettingsKeys.Add("LogOut_PokestopsVisit_Value", "1500");
+            SettingsKeys.Add("LogOut_Runtime", "false"); //In Logic Einbauen
+            SettingsKeys.Add("LogOut_Runtime_Value", "300"); //In Logic Einbauen
+            SettingsKeys.Add("LogOut_LevelReached", "false"); //In Logic Einbauen
+            SettingsKeys.Add("LogOut_LevelReached_Value", "1"); //In Logic Einbauen
+            SettingsKeys.Add("LogOut_PokemonCaught", "false"); //In Logic Einbauen
+            SettingsKeys.Add("LogOut_PokemonCaught_Value", "750"); //In Logic Einbauen
+            SettingsKeys.Add("LogOut_PokestopsVisit", "false"); //In Logic Einbauen
+            SettingsKeys.Add("LogOut_PokestopsVisit_Value", "1500"); //In Logic Einbauen
 
             SettingsKeys.Add("DebugMode", "false");
 

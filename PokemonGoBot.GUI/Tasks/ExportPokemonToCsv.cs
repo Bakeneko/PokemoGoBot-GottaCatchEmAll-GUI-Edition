@@ -78,8 +78,7 @@ namespace PokemonGoBot.Tasks
                     Logger.Write("Export Player Infos and all Pokemons to CSV not possible. File seems be in use!", LogLevel.Warning);
                 }
                 _lastExportTime = DateTime.Now;
-                if (Logic._client.Settings.UseCSVExport)
-                    Logger.Write($"Next Export in {Logic._client.Settings.CSVExportInMinutes} Minutes", LogLevel.Info);
+                Logger.Write($"Next Export in {Logic._client.Settings.CSVExportInMinutes} Minutes", LogLevel.Info);
             }
         }
     }

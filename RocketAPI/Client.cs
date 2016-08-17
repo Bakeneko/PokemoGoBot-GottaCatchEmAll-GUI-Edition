@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using POGOProtos.Data;
 using POGOProtos.Networking.Envelopes;
 using RocketAPI.Enums;
 using RocketAPI.Extensions;
@@ -52,7 +53,6 @@ namespace RocketAPI
 
         public Client(ISettings settings)
         {
-            DeviceId = RequestBuilder.GetDeviceId();
             RequestBuilder.SetDevice(settings);
 
             Settings = settings;

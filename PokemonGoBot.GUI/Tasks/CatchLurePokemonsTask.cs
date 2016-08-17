@@ -16,7 +16,7 @@ namespace PokemonGoBot.Tasks
             var pokemonId = currentFortData.LureInfo.ActivePokemonId;
 
             if (Logic._client.Settings.UsePokemonToNotCatchList &&
-                Logic._client.Settings.PokemonsToNotCatch.Contains(pokemonId))
+                Logic._client.Settings.PokemonToNotCatch.Contains(pokemonId))
             {
                 Logger.Write($"Ignore Pokemon - {pokemonId} - is on ToNotCatch List", LogLevel.Debug);
                 return;

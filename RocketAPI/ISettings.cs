@@ -40,14 +40,14 @@ namespace RocketAPI
         bool CatchIncensePokemon { get; }
         bool CatchLuredPokemon { get; }
         bool UsePokemonToNotCatchList { get; }
-        //PokemonToNotCatchList als array noch einbauen
+        ICollection<PokemonId> PokemonToNotCatch { get; }
 
         bool EvolvePokemon { get; }
         bool EvolveOnlyPokemonAboveIV { get; }
         float EvolveOnlyPokemonAboveIVValue { get; }
         int EvolveKeepCandiesValue { get; }
         bool UsePokemonToEvolveList { get; }
-        //PokemonToEvolveList als array noch einbauen
+        ICollection<PokemonId> PokemonToEvolve { get; }
 
         bool TransferPokemon { get; }
         bool NotTransferPokemonsThatCanEvolve { get; }
@@ -58,7 +58,7 @@ namespace RocketAPI
         int TransferPokemonKeepAmountHighestCP { get; }
         int TransferPokemonKeepAmountHighestIV { get; }
         bool UsePokemonToNotTransferList { get; }
-        //PokemonToTransferList als array noch einbauen
+        ICollection<PokemonId> PokemonToNotTransfer { get; }
 
         bool HatchEggs { get; }
         bool UseOnlyBasicIncubator { get; }
@@ -86,8 +86,5 @@ namespace RocketAPI
         bool DebugMode { get; }
 
         ICollection<KeyValuePair<ItemId, int>> ItemRecycleFilter(IEnumerable<ItemData> myItems);
-        ICollection<PokemonId> PokemonsToEvolve { get; }
-        ICollection<PokemonId> PokemonsToNotTransfer { get; }
-        ICollection<PokemonId> PokemonsToNotCatch { get; }
     }
 }

@@ -29,7 +29,7 @@ namespace PokemonGoBot.Tasks
                 };
 
                 if (Logic._client.Settings.UsePokemonToNotCatchList &&
-                    Logic._client.Settings.PokemonsToNotCatch.Contains(pokemon.PokemonId))
+                    Logic._client.Settings.PokemonToNotCatch.Contains(pokemon.PokemonId))
                 {
                     Logger.Write($"Ignore Pokemon - {pokemon.PokemonId} - is on ToNotCatch List", LogLevel.Debug);
                     return;

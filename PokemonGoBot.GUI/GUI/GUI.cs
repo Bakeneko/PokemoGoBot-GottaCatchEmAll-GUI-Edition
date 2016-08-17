@@ -15,9 +15,11 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using PokemonGoBot.GUI.GUI;
 using PokemonGoBot.Logging;
+using PokemonGoBot.Utils;
 using POGOProtos.Map.Fort;
 using RocketAPI.Exceptions;
 using RocketAPI;
+using RocketAPI.Helpers;
 
 namespace PokemonGoBot.GUI
 {
@@ -31,7 +33,7 @@ namespace PokemonGoBot.GUI
             InitializeComponent();
         }
 
-        private static GMarkerGoogle playerMarker;
+        private static GMarkerGoogle _playerMarker;
 
         private void GUI_Load(object sender, EventArgs e)
         {
@@ -39,6 +41,8 @@ namespace PokemonGoBot.GUI
             _writer = new TextBoxStreamWriter(txtConsole);
             // Redirect the out Console stream
             Console.SetOut(_writer);
+
+            GitChecker.CheckVersion();
 
             Logger.Write($"Initializing Bot...");
 
@@ -53,7 +57,7 @@ namespace PokemonGoBot.GUI
             TextBot_Longitude.Text = ConfigurationManager.AppSettings["DefaultLongitude"];
             TextBot_Altitude.Text = ConfigurationManager.AppSettings["DefaultAltitude"];
 
-            UpdatePlayerLocation(Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLatitude"]), Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLongitude"]));
+            gmap.Position = new PointLatLng(Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLatitude"]), Convert.ToDouble(ConfigurationManager.AppSettings["DefaultLongitude"]));
 
             OnOff_UseProxy.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["UseProxy"]);
             TextBox_ProxyHost.Text = ConfigurationManager.AppSettings["ProxyHost"];
@@ -86,8 +90,8 @@ namespace PokemonGoBot.GUI
                     .ToList()
                     .ForEach(item =>
                     {
-                        var index = this.checkedList_ToNotCatchList.Items.IndexOf(item);
-                        this.checkedList_ToNotCatchList.SetItemChecked(index, true);
+                        var index = checkedList_ToNotCatchList.Items.IndexOf(item);
+                        checkedList_ToNotCatchList.SetItemChecked(index, true);
                     });
             }
 
@@ -99,8 +103,8 @@ namespace PokemonGoBot.GUI
                     .ToList()
                     .ForEach(item =>
                     {
-                        var index = this.checkedList_ToEvolveList.Items.IndexOf(item);
-                        this.checkedList_ToEvolveList.SetItemChecked(index, true);
+                        var index = checkedList_ToEvolveList.Items.IndexOf(item);
+                        checkedList_ToEvolveList.SetItemChecked(index, true);
                     });
             }
 
@@ -113,13 +117,15 @@ namespace PokemonGoBot.GUI
                     .ToList()
                     .ForEach(item =>
                     {
-                        var index = this.checkedList_ToNotTransferList.Items.IndexOf(item);
-                        this.checkedList_ToNotTransferList.SetItemChecked(index, true);
+                        var index = checkedList_ToNotTransferList.Items.IndexOf(item);
+                        checkedList_ToNotTransferList.SetItemChecked(index, true);
                     });
             }
 
             ComboBox_DeviceType.SelectedItem = ConfigurationManager.AppSettings["DeviceType"];
             ComboBox_PreconfiguredDevices.SelectedItem = ConfigurationManager.AppSettings["DevicePackageName"];
+            if (string.IsNullOrEmpty(ConfigurationManager.AppSettings["DeviceId"]) || ConfigurationManager.AppSettings["DeviceId"] == "8525f5d8201f78b5")
+                ConfigurationManager.AppSettings["DeviceId"] = RandomHelper.RandomString(16, "0123456789abcdef");
             TextBox_DeviceId.Text = ConfigurationManager.AppSettings["DeviceId"];
             TextBox_AndroidBoardName.Text = ConfigurationManager.AppSettings["AndroidBoardName"];
             TextBox_AndroidBootloader.Text = ConfigurationManager.AppSettings["AndroidBootloader"];
@@ -206,6 +212,8 @@ namespace PokemonGoBot.GUI
             if (ComboBox_PreconfiguredDevices.SelectedItem.ToString() != null)
                 config.AppSettings.Settings["DevicePackageName"].Value =
                     ComboBox_PreconfiguredDevices.SelectedItem.ToString();
+            if (string.IsNullOrEmpty(TextBox_DeviceId.Text) || TextBox_DeviceId.Text == "8525f5d8201f78b5")
+                TextBox_DeviceId.Text = RandomHelper.RandomString(16, "0123456789abcdef");
             config.AppSettings.Settings["DeviceId"].Value = TextBox_DeviceId.Text;
             config.AppSettings.Settings["AndroidBoardName"].Value = TextBox_AndroidBoardName.Text;
             config.AppSettings.Settings["AndroidBootloader"].Value = TextBox_AndroidBootloader.Text;
@@ -321,43 +329,46 @@ namespace PokemonGoBot.GUI
 
         private async void Button_Start_Click(object sender, EventArgs e)
         {
+            Settings.Settings.cancellationTokenSource = new CancellationTokenSource();
+            Settings.Settings.cancellationToken = Settings.Settings.cancellationTokenSource.Token;
+
             Button_Start.Visible = false;
             Button_Stop.Visible = true;
 
+            Logger.Write($"Bot started");
             await Run();
         }
 
         private async Task Run()
         {
-            Task.Run(() =>
-            {
+            var task = new Task(() => {
                 try
                 {
-                    new Logic(new Settings.Settings()).Execute().Wait();
+                    new Logic(new Settings.Settings()).Execute(Settings.Settings.cancellationToken).Wait(Settings.Settings.cancellationToken);
                 }
-                catch (PtcOfflineException)
+                catch (AggregateException ae)
                 {
-                    Logger.Write("PTC Servers are probably down OR your credentials are wrong. Try google",
-                        LogLevel.Error);
-                    Logger.Write("Trying again in 60 seconds...");
-                    Thread.Sleep(60000);
-                    new Logic(new Settings.Settings()).Execute().Wait();
+                    throw ae.Flatten().InnerException;
                 }
-                catch (AccountNotVerifiedException)
+                catch (OperationCanceledException)
                 {
-                    Logger.Write("Account not verified. - Exiting");
-                    Environment.Exit(0);
+                    Settings.Settings.cancellationTokenSource.Cancel();
+                    Logger.Write($"Bot stopped");
+                    Button_Stop.Visible = false;
+                    Button_Start.Visible = true;
                 }
                 catch (Exception ex)
                 {
                     Logger.Write($"Unhandled exception: {ex}", LogLevel.Error);
-                    new Logic(new Settings.Settings()).Execute().Wait();
+                    new Logic(new Settings.Settings()).Execute(Settings.Settings.cancellationToken).Wait(Settings.Settings.cancellationToken);
                 }
-            });
+            }, Settings.Settings.cancellationToken);
+            task.Start();
         }
 
         private void Button_Stop_Click(object sender, EventArgs e)
         {
+            Settings.Settings.cancellationTokenSource.Cancel();
             Button_Stop.Visible = false;
             Button_Start.Visible = true;
         }
@@ -373,7 +384,7 @@ namespace PokemonGoBot.GUI
             gmap.MapProvider = BingMapProvider.Instance;
             GMaps.Instance.Mode = AccessMode.ServerOnly;
 
-            UpdatePlayerLocation(52.371063, 4.898526);
+            gmap.Position = new PointLatLng(52.371063, 4.898526);
         }
 
         public static void SetPokestopMarker(List<FortData>pokestops)
@@ -394,17 +405,22 @@ namespace PokemonGoBot.GUI
 
         public static void UpdatePlayerLocation(double latitude, double longitude)
         {
-            if (playerMarker == null)
+            if (_playerMarker == null)
             {
                 GMapOverlay playerOverlay = new GMapOverlay("Player");
                 Bitmap playerImg = new Bitmap(Image.FromFile("e:\\Player.png"), new Size(32, 32));
 
-                playerMarker = new GMarkerGoogle(gmap.Position, playerImg);
-                playerOverlay.Markers.Add(playerMarker);
+                _playerMarker = new GMarkerGoogle(gmap.Position, playerImg);
+                playerOverlay.Markers.Add(_playerMarker);
                 gmap.Overlays.Add(playerOverlay);
             }
             gmap.Position = new PointLatLng(latitude, longitude);
-            playerMarker.Position = gmap.Position;
+            _playerMarker.Position = gmap.Position;
+        }
+
+        private void Button_NewDeviceId_Click(object sender, EventArgs e)
+        {
+            TextBox_DeviceId.Text = ConfigurationManager.AppSettings["DeviceId"] = RandomHelper.RandomString(16, "0123456789abcdef");
         }
     }
 }

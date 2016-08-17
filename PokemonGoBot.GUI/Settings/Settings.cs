@@ -2,30 +2,30 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Threading;
 using System.Xml.Serialization;
+using PokemonGoBot.Logging;
+using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using RocketAPI;
 using RocketAPI.Enums;
-using System.Configuration;
-using System.Globalization;
-using System.Windows.Forms;
-using PokemonGoBot.Logging;
 
 #endregion
 
 
-namespace PokemonGoBot.GUI.Settings
+namespace PokemonGoBot.Settings
 {
     public class Settings : ISettings
     {
-        [XmlIgnore]
         public static readonly string ConfigsPath = Path.Combine(Directory.GetCurrentDirectory(), "Settings");
         public static readonly string ConfigsFile = Path.Combine(ConfigsPath, "Settings.xml");
+
+        public static CancellationTokenSource cancellationTokenSource;
+        public static CancellationToken cancellationToken;
 
         public AuthType AuthType
         {
@@ -121,7 +121,17 @@ namespace PokemonGoBot.GUI.Settings
         {
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToNotCatchList"]); } set { ConfigurationManager.AppSettings["UsePokemonToNotCatchList"] = value.ToString(); }
         }
-        //PokemonToNotCatchList als array noch einbauen
+
+        private ICollection<PokemonId> _pokemonToNotCatch;
+        public ICollection<PokemonId> PokemonToNotCatch
+        {
+            get
+            {
+                _pokemonToNotCatch = _pokemonToNotCatch ?? LoadPokemonList("PokemonToNotCatchList");
+                return _pokemonToNotCatch;
+            }
+            set { ConfigurationManager.AppSettings["PokemonToNotCatchList"] = value.ToString(); }
+        }
 
         public bool EvolvePokemon
         {
@@ -143,7 +153,17 @@ namespace PokemonGoBot.GUI.Settings
         {
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToEvolveList"]); } set { ConfigurationManager.AppSettings["UsePokemonToEvolveList"] = value.ToString(); }
         }
-        //PokemonToEvolveList als array noch einbauen
+        private ICollection<PokemonId> _pokemonToEvolve;
+        public ICollection<PokemonId> PokemonToEvolve
+        {
+            get
+            {
+                _pokemonToEvolve = _pokemonToEvolve ?? LoadPokemonList("PokemonToEvolveList");
+                Logger.Write($"{_pokemonToEvolve}");
+                return _pokemonToEvolve;
+            }
+            set { ConfigurationManager.AppSettings["PokemonToEvolveList"] = value.ToString(); }
+        }
 
         public bool TransferPokemon
         {
@@ -180,6 +200,16 @@ namespace PokemonGoBot.GUI.Settings
         public bool UsePokemonToNotTransferList
         {
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UsePokemonToNotTransferList"]); } set { ConfigurationManager.AppSettings["UsePokemonToNotTransferList"] = value.ToString(); }
+        }
+        private ICollection<PokemonId> _pokemonToNotTransfer;
+        public ICollection<PokemonId> PokemonToNotTransfer
+        {
+            get
+            {
+                _pokemonToNotTransfer = _pokemonToNotTransfer ?? LoadPokemonList("PokemonToNotTransferList");
+                return _pokemonToNotTransfer;
+            }
+            set { ConfigurationManager.AppSettings["PokemonToNotTransferList"] = value.ToString(); }
         }
         //PokemonToTransferList als array noch einbauen
 
@@ -220,7 +250,7 @@ namespace PokemonGoBot.GUI.Settings
         }
         public string AndroidBoardName
         {
-            get { return ConfigurationManager.AppSettings["AndroidBoardName"]; } set { ConfigurationManager.AppSettings["DeviceId"] = value; }
+            get { return ConfigurationManager.AppSettings["AndroidBoardName"]; } set { ConfigurationManager.AppSettings["AndroidBoardName"] = value; }
         }
         public string AndroidBootloader
         {
@@ -272,15 +302,6 @@ namespace PokemonGoBot.GUI.Settings
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["DebugMode"]); }
             set { ConfigurationManager.AppSettings["DebugMode"] = value.ToString(); }
         }
-
-        [XmlIgnore]
-        private ICollection<PokemonId> _pokemonsToEvolve;
-
-        [XmlIgnore]
-        private ICollection<PokemonId> _pokemonsToNotTransfer;
-
-        [XmlIgnore]
-        private ICollection<PokemonId> _pokemonsToNotCatch;
 
         [XmlIgnore]
         private readonly SortedList<int, ItemId> _inventoryBalls = new SortedList<int, ItemId>();
@@ -374,88 +395,19 @@ namespace PokemonGoBot.GUI.Settings
             }
         }
 
-        [XmlIgnore]
-        public ICollection<PokemonId> PokemonsToEvolve
+        private ICollection<PokemonId> LoadPokemonList(string listname)
         {
-            get
-            {
-                //Type of pokemons to evolve
-                var defaultPokemon = new List<PokemonId> {
-                    PokemonId.Zubat, PokemonId.Pidgey, PokemonId.Rattata
-                };
-                _pokemonsToEvolve = _pokemonsToEvolve ?? LoadPokemonList("PokemonsToEvolve.ini", defaultPokemon);
-                return _pokemonsToEvolve;
-            }
-        }
+            Logger.Write($"Loading: \"{listname}\"", LogLevel.Info);
 
-        [XmlIgnore]
-        public ICollection<PokemonId> PokemonsToNotTransfer
-        {
-            get
-            {
-                //Type of pokemons not to transfer
-                var defaultPokemon = new List<PokemonId> {
-                    PokemonId.Dragonite, PokemonId.Charizard, PokemonId.Zapdos, PokemonId.Snorlax, PokemonId.Alakazam, PokemonId.Mew, PokemonId.Mewtwo
-                };
-                _pokemonsToNotTransfer = _pokemonsToNotTransfer ?? LoadPokemonList("PokemonsToNotTransfer.ini", defaultPokemon);
-                return _pokemonsToNotTransfer;
-            }
-        }
-
-        [XmlIgnore]
-        public ICollection<PokemonId> PokemonsToNotCatch
-        {
-            get
-            {
-                //Type of pokemons not to catch
-                var defaultPokemon = new List<PokemonId> {
-                    PokemonId.Zubat, PokemonId.Pidgey, PokemonId.Rattata
-                };
-                _pokemonsToNotCatch = _pokemonsToNotCatch ?? LoadPokemonList("PokemonsToNotCatch.ini", defaultPokemon);
-                return _pokemonsToNotCatch;
-            }
-        }
-
-        private ICollection<PokemonId> LoadPokemonList(string filename, List<PokemonId> defaultPokemon)
-        {
             ICollection<PokemonId> result = new List<PokemonId>();
-            if (!Directory.Exists(ConfigsPath))
-                Directory.CreateDirectory(ConfigsPath);
-            var pokemonlistFile = Path.Combine(ConfigsPath, filename);
-            if (!File.Exists(pokemonlistFile))
+            var pokemonList = ConfigurationManager.AppSettings[$"{listname}"];
+            var pokemomNames = pokemonList.Split(new[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string pokemomName in pokemomNames)
             {
-                Logger.Write($"Settings File: \"{filename}\" not found, creating new...", LogLevel.Warning);
-                using (var w = File.AppendText(pokemonlistFile))
+                PokemonId pokemon;
+                if (Enum.TryParse(pokemomName, out pokemon))
                 {
-                    defaultPokemon.ForEach(pokemon => w.WriteLine(pokemon.ToString()));
-                    defaultPokemon.ForEach(pokemon => result.Add(pokemon));
-                    w.Close();
-                }
-            }
-
-            if (File.Exists(pokemonlistFile))
-            {
-                Logger.Write($"Loading Settings File: \"{filename}\"", LogLevel.Info);
-
-                string content;
-                using (var reader = new StreamReader(pokemonlistFile))
-                {
-                    content = reader.ReadToEnd();
-                    reader.Close();
-                }
-                content = Regex.Replace(content, @"\\/\*(.|\n)*?\*\/", ""); //todo: supposed to remove comment blocks
-
-                var tr = new StringReader(content);
-
-                var pokemonName = tr.ReadLine();
-                while (pokemonName != null)
-                {
-                    PokemonId pokemon;
-                    if (Enum.TryParse(pokemonName, out pokemon))
-                    {
-                        result.Add(pokemon);
-                    }
-                    pokemonName = tr.ReadLine();
+                    result.Add(pokemon);
                 }
             }
             return result;

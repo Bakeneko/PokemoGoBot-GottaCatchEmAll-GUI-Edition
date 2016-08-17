@@ -24,7 +24,7 @@ namespace PokemonGoBot.Tasks
             Logger.Write($"Found {pokemons.Count} catchable Pokemon", LogLevel.Debug);
             foreach (var pokemon in pokemons)
             {
-                if (Logic._client.Settings.UsePokemonToNotCatchList && Logic._client.Settings.PokemonsToNotCatch.Contains(pokemon.PokemonId))
+                if (Logic._client.Settings.UsePokemonToNotCatchList && Logic._client.Settings.PokemonToNotCatch.Contains(pokemon.PokemonId))
                 {
                     Logger.Write($"Ignore Pokemon - {pokemon.PokemonId} - is on ToNotCatch List", LogLevel.Debug);
                     continue;

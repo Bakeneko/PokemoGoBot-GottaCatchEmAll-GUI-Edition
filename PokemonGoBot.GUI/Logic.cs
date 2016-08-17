@@ -2,19 +2,17 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using PokemonGoBot.Logging;
 using PokemonGoBot.Tasks;
 using PokemonGoBot.Utils;
-using POGOProtos.Data.Player;
 using POGOProtos.Networking.Responses;
 using RocketAPI;
 using RocketAPI.Enums;
 using RocketAPI.Exceptions;
-using RocketAPI.Rpc;
 
 #endregion
 
@@ -30,8 +28,6 @@ namespace PokemonGoBot
         public static Navigation _navigation;
         private GetPlayerResponse _playerProfile;
 
-        public readonly string ConfigsPath = Path.Combine(Directory.GetCurrentDirectory(), "Settings");
-
         private bool _isInitialized = false;
 
         public Logic(ISettings clientSettings)
@@ -44,100 +40,18 @@ namespace PokemonGoBot
             _navigation = new Navigation();
         }  
 
-        public async Task Execute()
+        public async Task Execute(CancellationToken cancellationToken)
         {
-            if (!_isInitialized)
-            {
-                GitChecker.CheckVersion();
+            if (!_isInitialized) await LocationCheckOnStartUp(cancellationToken);
 
-                var latLngFromFile = PositionCheckState.LoadPositionFromDisk();
-                if (latLngFromFile != null && Math.Abs((double) latLngFromFile.Item1) > 0 && Math.Abs((double) latLngFromFile.Item2) > 0)
-                    _client.Player.SetCoordinates(latLngFromFile.Item1, latLngFromFile.Item2,
-                        _client.Settings.DefaultAltitude);
-                else
-                    _client.Player.SetCoordinates(_client.Settings.DefaultLatitude, _client.Settings.DefaultLongitude,
-                        _client.Settings.DefaultAltitude);
-
-                if (Math.Abs(_clientSettings.DefaultLatitude) <= 0  || Math.Abs(_clientSettings.DefaultLongitude) <= 0)
-                {
-                    Logger.Write($"Please change first Latitude and/or Longitude because currently your using default values!", LogLevel.Error);
-                    for (int i = 3; i > 0; i--)
-                    {
-                        Logger.Write($"Bot will close in {i * 5} seconds!", LogLevel.Warning);
-                        await Task.Delay(5000);
-                    }
-                    Environment.Exit(1);
-                }
-                else
-                {
-                    Logger.Write($"Make sure Lat & Lng is right. Exit Program if not! Lat: {_client.CurrentLatitude} Lng: {_client.CurrentLongitude}", LogLevel.Warning);
-                    for (int i = 3; i > 0; i--)
-                    {
-                        Logger.Write($"Bot will continue in {i * 5} seconds!", LogLevel.Warning);
-                        await Task.Delay(5000);
-                    }
-                }
-            }
-            Logger.Write($"Logging in via: {_clientSettings.AuthType}", LogLevel.Info);
             while (true)
             {
-                try
-                {
-                    switch (_clientSettings.AuthType)
-                    {
-                        case AuthType.Ptc:
-                            await _client.Login.DoLogin();
-                            break;
-                        case AuthType.Google:
-                            await _client.Login.DoLogin();
-                            break;
-                        default:
-                            Logger.Write("wrong AuthType");
-                            Environment.Exit(0);
-                            break;
-                    }
-                    await PostLoginExecute();
-                }
-                catch (AccountNotVerifiedException)
-                {
-                    Logger.Write("Account not verified! Exiting...", LogLevel.Error);
-                    await Task.Delay(5000);
-                    Environment.Exit(0);
-                }
-                catch (GoogleException e)
-                {
-                    if (e.Message.Contains("NeedsBrowser"))
-                    {
-                        Logger.Write("As you have Google Two Factor Auth enabled, you will need to insert an App Specific Password into the UserSettings.", LogLevel.Error);
-                        Logger.Write("Opening Google App-Passwords. Please make a new App Password (use Other as Device)", LogLevel.Error);
-                        await Task.Delay(7000);
-                        try
-                        {
-                            Process.Start("https://security.google.com/settings/security/apppasswords");
-                        }
-                        catch (Exception)
-                        {
-                            Logger.Write("https://security.google.com/settings/security/apppasswords");
-                            throw;
-                        }
-                    }
-                    Logger.Write("Make sure you have entered the right Email & Password.", LogLevel.Error);
-                    await Task.Delay(5000);
-                    Environment.Exit(0);
-                }
-                catch (InvalidProtocolBufferException ex) when (ex.Message.Contains("SkipLastField"))
-                {
-                    Logger.Write("Connection refused. Your IP might have been Blacklisted by Niantic. Exiting..", LogLevel.Error);
-                    await Task.Delay(5000);
-                    Environment.Exit(0);
-                }
-                catch (Exception e)
-                {
-                    Logger.Write(e.Message + " from " + e.Source);
-                    Logger.Write("Error, trying automatic restart..", LogLevel.Error);
-                    await Execute();
-                }
-                await Task.Delay(10000);
+                await Login(cancellationToken);
+
+                await PostLoginExecute();
+
+                await Task.Delay(10000, cancellationToken);
+                Logger.Write("Debug Info: Execute canceld?");
             }
         }
 
@@ -154,73 +68,191 @@ namespace PokemonGoBot
             }
         }
 
-        public async Task PostLoginExecute()
+        public async Task LocationCheckOnStartUp(CancellationToken cancellationToken)
         {
-            Logger.Write($"Client logged in", LogLevel.Info);
+            var latLngFromFile = PositionCheckState.LoadPositionFromDisk();
+            if (latLngFromFile != null && Math.Abs(latLngFromFile.Item1) > 0 && Math.Abs(latLngFromFile.Item2) > 0)
+                _client.Player.SetCoordinates(latLngFromFile.Item1, latLngFromFile.Item2,
+                    _client.Settings.DefaultAltitude);
+            else
+                _client.Player.SetCoordinates(_client.Settings.DefaultLatitude, _client.Settings.DefaultLongitude,
+                    _client.Settings.DefaultAltitude);
 
-            while (true)
+            if (Math.Abs(_clientSettings.DefaultLatitude) <= 0 || Math.Abs(_clientSettings.DefaultLongitude) <= 0)
             {
-                if (!_isInitialized)
+                Logger.Write($"Please change first Latitude and/or Longitude because currently your using default values!", LogLevel.Error);
+                for (int i = 3; i > 0; i--)
                 {
-                    await Inventory.GetCachedInventory();
-                    _playerProfile = await _client.Player.GetPlayer();
-                    BotStats.UpdateConsoleTitle();
-
-                    var stats = await Inventory.GetPlayerStats();
-                    var stat = Enumerable.FirstOrDefault<PlayerStats>(stats);
-                    if (stat != null) BotStats.KmWalkedOnStart = stat.KmWalked;
-
-                    Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
-                    if (_clientSettings.AuthType == AuthType.Ptc)
-                        Logger.Write($"PTC Account: {BotStats.GetUsername(_playerProfile)}\n", LogLevel.None, ConsoleColor.Cyan);
-                    Logger.Write($"Latitude: {_clientSettings.DefaultLatitude}", LogLevel.None, ConsoleColor.DarkGray);
-                    Logger.Write($"Longitude: {_clientSettings.DefaultLongitude}", LogLevel.None, ConsoleColor.DarkGray);
-                    Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
-                    Logger.Write("Your Account:\n");
-                    Logger.Write($"Name: {BotStats.GetUsername(_playerProfile)}", LogLevel.None, ConsoleColor.DarkGray);
-                    Logger.Write($"Team: {_playerProfile.PlayerData.Team}", LogLevel.None, ConsoleColor.DarkGray);
-                    Logger.Write($"Level: {BotStats.GetCurrentInfo()}", LogLevel.None, ConsoleColor.DarkGray);
-                    Logger.Write($"Stardust: {_playerProfile.PlayerData.Currencies.ToArray()[1].Amount}", LogLevel.None, ConsoleColor.DarkGray);
-                    Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
-                    await DisplayHighests();
-                    Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
-
-                    var pokemonsToNotTransfer = _clientSettings.PokemonsToNotTransfer;
-                    var pokemonsToNotCatch = _clientSettings.PokemonsToNotCatch;
-                    var pokemonsToEvolve = _clientSettings.PokemonsToEvolve;
-
-                    await RecycleItemsTask.Execute();
-                    if (_client.Settings.UseLuckyEggs) await UseLuckyEggTask.Execute();
-                    if (_client.Settings.EvolvePokemon || _client.Settings.EvolveOnlyPokemonAboveIV) await EvolvePokemonTask.Execute();
-                    if (_client.Settings.TransferPokemon) await TransferPokemonTask.Execute();
-                    if (_client.Settings.UseCSVExport) await ExportPokemonToCsv.Execute(_playerProfile.PlayerData);
-                    if (_clientSettings.HatchEggs) await HatchEggsTask.Execute();
+                    Logger.Write($"Bot will close in {i * 5} seconds!", LogLevel.Warning);
+                    await Task.Delay(5000, cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
-                _isInitialized = true;
-                await Main();
-
-                await RefreshTokens();
-
-                /*
-                * Example calls below
-                *
-                var profile = await _client.GetProfile();
-                var settings = await _client.GetSettings();
-                var mapObjects = await _client.GetMapObjects();
-                var inventory = await _client.GetInventory();
-                var pokemons = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Pokemon).Where(p => p != null && p?.PokemonId > 0);
-                */
-
-                await Task.Delay(10000);
+            }
+            else
+            {
+                Logger.Write($"Make sure Lat & Lng is right. Exit Program if not! Lat: {_client.CurrentLatitude} Lng: {_client.CurrentLongitude}", LogLevel.Warning);
+                for (int i = 3; i > 0; i--)
+                {
+                    Logger.Write($"Bot will continue in {i * 5} seconds!", LogLevel.Warning);
+                    await Task.Delay(5000, cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
             }
         }
 
-        private async Task Main()
+        public async Task Login(CancellationToken cancellationToken)
         {
-            if (_clientSettings.MovementBy == "UseGPXPathing")
-                await FarmPokestopsGPXTask.Execute();
-            else
-                await FarmPokestopsTask.Execute();
+            Logger.Write($"Logging in via: {_clientSettings.AuthType}", LogLevel.Info);
+
+            try
+            {
+                if (_clientSettings.AuthType == AuthType.Ptc || _clientSettings.AuthType == AuthType.Google)
+                    await _client.Login.DoLogin();
+                else
+                {
+                    Logger.Write("Wrong AuthType");
+                    Settings.Settings.cancellationTokenSource.Cancel();
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            catch (Exception ex) when (ex is PtcOfflineException || ex is AccessTokenExpiredException)
+            {
+                Logger.Write("PTC Servers are probably down OR your credentials are wrong. Try google",
+                    LogLevel.Error);
+                Logger.Write("Trying again in 60 seconds...");
+                Thread.Sleep(60000);
+                await Execute(cancellationToken);
+            }
+            catch (LoginFailedException)
+            {
+                Logger.Write("Bad credentials!", LogLevel.Error);
+                Settings.Settings.cancellationTokenSource.Cancel();
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            catch (AccountNotVerifiedException)
+            {
+                Logger.Write("Account not verified!", LogLevel.Error);
+                Settings.Settings.cancellationTokenSource.Cancel();
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            catch (GoogleException e)
+            {
+                if (e.Message.Contains("NeedsBrowser"))
+                {
+                    Logger.Write(
+                        "As you have Google Two Factor Auth enabled, you will need to insert an App Specific Password into the UserSettings.",
+                        LogLevel.Error);
+                    Logger.Write("Opening Google App-Passwords. Please make a new App Password (use Other as Device)",
+                        LogLevel.Error);
+                    await Task.Delay(7000);
+                    try
+                    {
+                        Process.Start("https://security.google.com/settings/security/apppasswords");
+                    }
+                    catch (Exception)
+                    {
+                        Logger.Write("https://security.google.com/settings/security/apppasswords");
+                        throw;
+                    }
+                }
+                Logger.Write("Make sure you have entered the right Email & Password.", LogLevel.Error);
+                Settings.Settings.cancellationTokenSource.Cancel();
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            catch (InvalidProtocolBufferException ex) when (ex.Message.Contains("SkipLastField"))
+            {
+                Logger.Write("Connection refused. Your IP might have been Blacklisted by Niantic...",
+                    LogLevel.Error);
+                Settings.Settings.cancellationTokenSource.Cancel();
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            catch (Exception e)
+            {
+                Logger.Write(e.Message + " from " + e.Source);
+                Logger.Write("Error, trying automatic restart..", LogLevel.Error);
+                await Execute(cancellationToken);
+            }
+
+            try
+            {
+                var playerStats = (await Inventory.GetPlayerStats()).FirstOrDefault();
+                if (playerStats != null)
+                {
+                    Logger.Write(
+                        "Player profile successfully received ;-)",
+                        LogLevel.Warning);
+                }
+            }
+            catch (Exception)
+            {
+                Logger.Write("Due to login failure your player profile could not be retrieved. - unconfirmed permban",
+                    LogLevel.Error);
+                Settings.Settings.cancellationTokenSource.Cancel();
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+
+            Logger.Write("Client logged in", LogLevel.Info);
+        }
+
+        public async Task PrintPlayerInfos()
+        {
+            await Inventory.GetCachedInventory();
+            _playerProfile = await _client.Player.GetPlayer();
+            BotStats.UpdateConsoleTitle();
+
+            var playerStats = (await Inventory.GetPlayerStats()).FirstOrDefault();
+            if (playerStats != null) BotStats.KmWalkedOnStart = playerStats.KmWalked;
+
+            Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
+            if (_clientSettings.AuthType == AuthType.Ptc)
+                Logger.Write($"PTC Account: {BotStats.GetUsername(_playerProfile)}\n", LogLevel.None,
+                    ConsoleColor.Cyan);
+            Logger.Write($"Latitude: {_clientSettings.DefaultLatitude}", LogLevel.None,
+                ConsoleColor.DarkGray);
+            Logger.Write($"Longitude: {_clientSettings.DefaultLongitude}", LogLevel.None,
+                ConsoleColor.DarkGray);
+            Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
+            Logger.Write("Your Account:\n");
+            Logger.Write($"Name: {BotStats.GetUsername(_playerProfile)}", LogLevel.None,
+                ConsoleColor.DarkGray);
+            Logger.Write($"Team: {_playerProfile.PlayerData.Team}", LogLevel.None, ConsoleColor.DarkGray);
+            Logger.Write($"Level: {BotStats.GetCurrentInfo()}", LogLevel.None, ConsoleColor.DarkGray);
+            Logger.Write($"Stardust: {_playerProfile.PlayerData.Currencies.ToArray()[1].Amount}",
+                LogLevel.None, ConsoleColor.DarkGray);
+            Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
+            await DisplayHighests();
+            Logger.Write("----------------------------", LogLevel.None, ConsoleColor.Yellow);
+
+            var pokemonsToNotTransfer = _clientSettings.PokemonToNotTransfer;
+            var pokemonsToNotCatch = _clientSettings.PokemonToNotCatch;
+            var pokemonsToEvolve = _clientSettings.PokemonToEvolve;
+
+            await RecycleItemsTask.Execute();
+            if (_client.Settings.UseLuckyEggs) await UseLuckyEggTask.Execute();
+            if (_client.Settings.EvolvePokemon || _client.Settings.EvolveOnlyPokemonAboveIV)
+                await EvolvePokemonTask.Execute();
+            if (_client.Settings.TransferPokemon) await TransferPokemonTask.Execute();
+            if (_client.Settings.UseCSVExport) await ExportPokemonToCsv.Execute(_playerProfile.PlayerData);
+            if (_clientSettings.HatchEggs) await HatchEggsTask.Execute();
+        }
+
+        public async Task PostLoginExecute()
+        {
+            if (!_isInitialized) await PrintPlayerInfos();
+            _isInitialized = true;
+
+            while (true)
+            {
+                if (_clientSettings.MovementBy == "UseGPXPathing")
+                    await FarmPokestopsGPXTask.Execute();
+                else
+                    await FarmPokestopsTask.Execute();
+
+                await RefreshTokens();
+
+                await Task.Delay(10000);
+                Logger.Write("Debug Info: PostLoginExecute canceld?");
+            }
         }
 
         private async Task DisplayHighests()

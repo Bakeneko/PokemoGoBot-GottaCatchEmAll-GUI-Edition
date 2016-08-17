@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,6 +67,30 @@ namespace RocketAPI.Helpers
             var randomMax = (int)(delay * (1 + randomFactor));
 
             return Random.Next(randomMin, randomMax);
+        }
+
+        public static string RandomString(int length, string alphabet = "abcdefghijklmnopqrstuvwxyz0123456789")
+        {
+            var outOfRange = Byte.MaxValue + 1 - (Byte.MaxValue + 1) % alphabet.Length;
+
+            return string.Concat(
+                Enumerable
+                    .Repeat(0, Int32.MaxValue)
+                    .Select(e => RandomByte())
+                    .Where(randomByte => randomByte < outOfRange)
+                    .Take(length)
+                    .Select(randomByte => alphabet[randomByte % alphabet.Length])
+            );
+        }
+
+        public static byte RandomByte()
+        {
+            using (var randomizationProvider = new RNGCryptoServiceProvider())
+            {
+                var randomBytes = new byte[1];
+                randomizationProvider.GetBytes(randomBytes);
+                return randomBytes.Single();
+            }
         }
     }
 }

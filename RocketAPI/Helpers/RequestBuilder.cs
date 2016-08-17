@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -74,20 +75,6 @@ namespace RocketAPI.Helpers
                 FirmwareTags = Client.FirmwareTags,
                 FirmwareType = Client.FirmwareType,
                 FirmwareFingerprint = Client.FirmwareFingerprint,
-                /*
-AndroidBoardName = "msm8994", // might al
-AndroidBootloader = "unknown",
-DeviceBrand = "OnePlus",
-DeviceModel = "OnePlus2", // might als
-DeviceModelIdentifier = "ONE A2003_24_160604",
-DeviceModelBoot = "qcom",
-HardwareManufacturer = "OnePlus",
-HardwareModel = "ONE A2003",
-FirmwareBrand = "OnePlus2",
-FirmwareTags = "dev-keys",
-FirmwareType = "user",
-FirmwareFingerprint = "OnePlus/OnePlus2/OnePlus2:6.0.1/MMB29M/1447840820:user/release-keys"
-*/
             };
             sig.LocationFix.Add(new POGOProtos.Networking.Signature.Types.LocationFix()
             {
@@ -242,10 +229,20 @@ FirmwareFingerprint = "OnePlus/OnePlus2/OnePlus2:6.0.1/MMB29M/1447840820:user/re
                 SetDevInfoByKey(devicePackageName);
             }
             // Do some post-load logic to determine what device info to be using - if 'custom' is set we just take what's in the file without question
-            else if(settings.DeviceType == "Preconfigured")
+            else if (settings.DeviceType == "Preconfigured")
             {
                 // User requested a specific device package, check to see if it exists and if so, set it up - otherwise fall-back to random package
                 SetDevInfoByKey(settings.DevicePackageName);
+            }
+            else if (settings.DeviceType == "Custom")
+            {
+                SetDevInfoByCustomSettings();
+            }
+            if (string.IsNullOrEmpty(Client.DeviceId) || Client.DeviceId == "8525f5d8201f78b5" || string.IsNullOrEmpty(ConfigurationManager.AppSettings["DeviceId"]) || ConfigurationManager.AppSettings["DeviceId"] == "8525f5d8201f78b5")
+            {
+                //Note that some device IDs I saw when adding devices had smaller numbers, only 12 or 14 chars instead of 16 - probably not important but noted here anyway
+                //Client.DeviceId = GetDeviceId();
+                Client.DeviceId = ConfigurationManager.AppSettings["DeviceId"] = RandomHelper.RandomString(16, "0123456789abcdef");
             }
         }
         private static void SetDevInfoByKey(string devicePackageName)
@@ -255,7 +252,6 @@ FirmwareFingerprint = "OnePlus/OnePlus2/OnePlus2:6.0.1/MMB29M/1447840820:user/re
                 Client.AndroidBoardName = DeviceInfoHelper.DeviceInfoSets[devicePackageName]["AndroidBoardName"];
                 Client.AndroidBootloader = DeviceInfoHelper.DeviceInfoSets[devicePackageName]["AndroidBootloader"];
                 Client.DeviceBrand = DeviceInfoHelper.DeviceInfoSets[devicePackageName]["DeviceBrand"];
-                //Client.DeviceId = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceId"];
                 Client.DeviceModel = DeviceInfoHelper.DeviceInfoSets[devicePackageName]["DeviceModel"];
                 Client.DeviceModelBoot = DeviceInfoHelper.DeviceInfoSets[devicePackageName]["DeviceModelBoot"];
                 Client.DeviceModelIdentifier = DeviceInfoHelper.DeviceInfoSets[devicePackageName]["DeviceModelIdentifier"];
@@ -268,8 +264,25 @@ FirmwareFingerprint = "OnePlus/OnePlus2/OnePlus2:6.0.1/MMB29M/1447840820:user/re
             }
             else
             {
-                throw new ArgumentException("Invalid device info package! Check your auth.config file and make sure a valid DevicePackageName is set. For simple use set it to 'random'. If you have a custom device, then set it to 'custom'.");
+                throw new ArgumentException("Invalid device info package! Check your app.config file and make sure a valid DevicePackageName is set. For simple use set it to 'Random'. If you have a custom device, then set it to 'Custom'.");
             }
+        }
+
+        private static void SetDevInfoByCustomSettings()
+        {
+            Client.DeviceId = ConfigurationManager.AppSettings["DeviceId"];
+            Client.AndroidBoardName = ConfigurationManager.AppSettings["AndroidBoardName"];
+            Client.AndroidBootloader = ConfigurationManager.AppSettings["AndroidBootloader"];
+            Client.DeviceBrand = ConfigurationManager.AppSettings["DeviceBrand"];
+            Client.DeviceModel = ConfigurationManager.AppSettings["DeviceModel"];
+            Client.DeviceModelBoot = ConfigurationManager.AppSettings["DeviceModelBoot"];
+            Client.DeviceModelIdentifier = ConfigurationManager.AppSettings["DeviceModelIdentifier"];
+            Client.FirmwareBrand = ConfigurationManager.AppSettings["FirmwareBrand"];
+            Client.FirmwareFingerprint = ConfigurationManager.AppSettings["FirmwareFingerprint"];
+            Client.FirmwareTags = ConfigurationManager.AppSettings["FirmwareTags"];
+            Client.FirmwareType = ConfigurationManager.AppSettings["FirmwareType"];
+            Client.HardwareManufacturer = ConfigurationManager.AppSettings["HardwareManufacturer"];
+            Client.HardwareModel = ConfigurationManager.AppSettings["HardwareModel"];
         }
     }
 }
