@@ -34,6 +34,7 @@ namespace PokemonGoBot
             PlayerUpdateResponse result;
             await Logic._client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, Logic._client.Settings.DefaultAltitude);
             Gui.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude);
+            Gui.UpdateRouteToTarget(sourceLocation, targetLocation);
 
             do
             {

@@ -325,6 +325,7 @@ namespace PokemonGoBot.GUI
             this.OnOff_DebugMode.Size = new System.Drawing.Size(56, 24);
             this.OnOff_DebugMode.TabIndex = 2;
             this.OnOff_DebugMode.Text = "OnOff_DebugMode";
+            this.OnOff_DebugMode.CheckedChanged += new PokemonGoBot.GUI.GUI.Theme.NSOnOffBox.CheckedChangedEventHandler(this.OnOff_DebugMode_CheckedChanged);
             // 
             // Debug_Label
             // 

@@ -34,6 +34,7 @@ namespace PokemonGoBot.GUI
         }
 
         private static GMarkerGoogle _playerMarker;
+        private static GMapPolygon _routeToTarget;
 
         private void GUI_Load(object sender, EventArgs e)
         {
@@ -391,12 +392,8 @@ namespace PokemonGoBot.GUI
             GMapOverlay markersOverlay = new GMapOverlay("Pokestops");
             foreach (var pokestop in pokestops)
             {
-                //Name Overlay disabled...currently to heavy Requests per second
-                //var fortInfo = await Logic._client.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
                 GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(pokestop.Latitude, pokestop.Longitude), GMarkerGoogleType.blue);
                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                //marker.ToolTipText = $"{fortInfo.Name}";
-                //marker.ToolTipText = $"Test";
                 markersOverlay.Markers.Add(marker);
             }
             gmap.Overlays.Add(markersOverlay);
@@ -417,9 +414,38 @@ namespace PokemonGoBot.GUI
             _playerMarker.Position = gmap.Position;
         }
 
+        public static void UpdateRouteToTarget(GeoUtils sourceLocation, GeoUtils destinationLocation)
+        {
+            _routeToTarget = null;
+
+            List<PointLatLng> points = new List<PointLatLng>();
+            points.Add(new PointLatLng(sourceLocation.Latitude, sourceLocation.Longitude));
+            points.Add(new PointLatLng(destinationLocation.Latitude, destinationLocation.Longitude));
+
+            if (_routeToTarget == null)
+            {
+                GMapOverlay polyOverlay = new GMapOverlay("RouteToTarget");
+
+                _routeToTarget = new GMapPolygon(points, "mypolygon");
+                _routeToTarget.Fill = new SolidBrush(Color.FromArgb(50, Color.Red));
+                _routeToTarget.Stroke = new Pen(Color.Red, 3);
+                polyOverlay.Polygons.Add(_routeToTarget);
+                gmap.Overlays.Add(polyOverlay);
+            }
+        }
+
         private void Button_NewDeviceId_Click(object sender, EventArgs e)
         {
             TextBox_DeviceId.Text = ConfigurationManager.AppSettings["DeviceId"] = RandomHelper.RandomString(16, "0123456789abcdef");
+        }
+
+        private void OnOff_DebugMode_CheckedChanged(object sender)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["DebugMode"].Value = OnOff_DebugMode.Checked.ToString();
+
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
         }
     }
 }
